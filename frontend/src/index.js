@@ -7,6 +7,7 @@ import { Dapp } from "./components/Dapp";
 
 import './index.css'
 import '@mantine/core/styles.css';
+import '@mantine/carousel/styles.css';
 import { MantineProvider } from "@mantine/core";
 
 // This is the entry point of your application, but it just renders the Dapp

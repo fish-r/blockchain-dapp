@@ -89,7 +89,7 @@ export function HeaderMegaMenu() {
     ));
 
     return (
-        <Box pb={120} pt={20}>
+        <Box pb={20} pt={20}>
             <header className={classes.header}>
                 <Group justify="space-between" h="100%">
                     <MantineLogo size={30} />

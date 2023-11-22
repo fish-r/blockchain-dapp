@@ -1,11 +1,12 @@
-import Modal from "../components/Modal"
 import { HeaderMegaMenu } from "../mantineComponents/HeaderMegaMenu"
+import MantineCarousel from "../mantineComponents/MantineCarousel"
 
 const Dashboard = () => {
     return (
         <>
-            {/* <Modal></Modal> */}
-            <HeaderMegaMenu></HeaderMegaMenu>
+
+            <HeaderMegaMenu />
+            <MantineCarousel />
 
         </>
     )
