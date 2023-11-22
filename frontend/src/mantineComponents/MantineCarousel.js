@@ -29,7 +29,7 @@ function MantineCarousel() {
     return (
         <Carousel
             withIndicators
-            height={400}
+            height={500}
             slideSize="33.333333%"
             slideGap="md"
             loop
