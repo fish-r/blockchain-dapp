@@ -18,6 +18,7 @@ import { Transfer } from "./Transfer";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
+import Dashboard from "../pages/dashboard";
 
 // This is the default id used by the Hardhat Network
 const HARDHAT_NETWORK_ID = '31337';
@@ -72,11 +73,12 @@ export class Dapp extends React.Component {
     // clicks a button. This callback just calls the _connectWallet method.
     if (!this.state.selectedAddress) {
       return (
-        <ConnectWallet 
-          connectWallet={() => this._connectWallet()} 
-          networkError={this.state.networkError}
-          dismiss={() => this._dismissNetworkError()}
-        />
+        // <ConnectWallet
+        //   connectWallet={() => this._connectWallet()}
+        //   networkError={this.state.networkError}
+        //   dismiss={() => this._dismissNetworkError()}
+        // />
+        <Dashboard></Dashboard>
       );
     }
 
@@ -190,7 +192,7 @@ export class Dapp extends React.Component {
       if (newAddress === undefined) {
         return this._resetState();
       }
-      
+
       this._initialize(newAddress);
     });
   }
