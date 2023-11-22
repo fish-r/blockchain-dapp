@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mantine/carousel": "^7.2.2",
+    "@mantine/core": "^7.2.2",
+    "@mantine/hooks": "^7.2.2",
+    "@mantinex/mantine-logo": "^1.0.1",
+    "@tabler/icons-react": "^2.42.0",
     "bootstrap": "^4.4.1",
+    "embla-carousel-react": "^7.1.0",
     "ethers": "^5.4.7",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
