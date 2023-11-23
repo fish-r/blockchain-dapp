@@ -35,6 +35,7 @@ function MantineCarousel() {
             loop
             align="start"
             slidesToScroll={3}
+            mb={20}
         >
             {slides}
         </Carousel>
