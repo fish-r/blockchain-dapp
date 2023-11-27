@@ -151,7 +151,9 @@ export function HeaderMegaMenu() {
                     </Group>
 
                     <Group visibleFrom="sm">
-                        <Button variant="default">Log in</Button>
+                        <Button variant="default" onClick={() => {
+
+                        }}>Log in</Button>
                         <Button>Sign up</Button>
                     </Group>
 
