@@ -31,6 +31,7 @@ import {
     IconChevronDown,
 } from '@tabler/icons-react';
 import classes from './HeaderMegaMenu.module.css';
+import { useState } from 'react';
 
 const mockdata = [
     {
@@ -64,11 +65,56 @@ const mockdata = [
         description: 'Combusken battles with the intensely hot flames it spews',
     },
 ];
+const connectWallet = async () => {
+    // This method is run when the user clicks the Connect. It connects the
+    // dapp to the user's wallet, and initializes it.
+
+    // To connect to the user's wallet, we have to run this method.
+    // It returns a promise that will resolve to the user's address.
+    const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+    // Once we have the address, we can initialize the application.
+
+    // First we check the network
+    this._checkNetwork();
+
+    this._initialize(selectedAddress);
+
+    // We reinitialize it whenever the user changes their account.
+    window.ethereum.on("accountsChanged", ([newAddress]) => {
+        this._stopPollingData();
+        // `accountsChanged` event can be triggered with an undefined newAddress.
+        // This happens when the user removes the Dapp from the "Connected
+        // list of sites allowed access to your addresses" (Metamask > Settings > Connections)
+        // To avoid errors, we reset the dapp state 
+        if (newAddress === undefined) {
+            return this._resetState();
+        }
+
+        this._initialize(newAddress);
+    });
+}
+
+const intialState = {
+    // The info of the token (i.e. It's Name and symbol)
+    tokenData: undefined,
+    // The user's address and balance
+    selectedAddress: undefined,
+    balance: undefined,
+    // The ID about transactions being sent, and any possible error with them
+    txBeingSent: undefined,
+    transactionError: undefined,
+    networkError: undefined,
+};
+
 
 export function HeaderMegaMenu() {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+    const [loginState, setLoginState] = useState(intialState)
     const theme = useMantineTheme();
+
+
 
     const links = mockdata.map((item) => (
         <UnstyledButton className={classes.subLink} key={item.title}>
@@ -151,8 +197,15 @@ export function HeaderMegaMenu() {
                     </Group>
 
                     <Group visibleFrom="sm">
-                        <Button variant="default">Log in</Button>
-                        <Button>Sign up</Button>
+                        {loginState.selectedAddress ?
+
+                            <Button id={loginState} variant='default' onClick={() => { console.log('profile') }}>Profile</Button>
+
+                            : <Button id={loginState} variant="default" onClick={() => {
+                                console.log('Log in')
+                                connectWallet()
+                            }}>Log in</Button>}
+                        <Button onClick={() => { console.log(loginState.balance) }}>My Cart</Button>
                     </Group>
 
                     <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />

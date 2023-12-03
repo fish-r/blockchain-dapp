@@ -2,8 +2,9 @@ import { Grid, GridCol } from "@mantine/core"
 import { BadgeCard } from "../mantineComponents/BadgeCard"
 import { HeaderMegaMenu } from "../mantineComponents/HeaderMegaMenu"
 import MantineCarousel from "../mantineComponents/MantineCarousel"
+import MantineStack from "../mantineComponents/MantineStack"
 
-const Dashboard = () => {
+const Home = () => {
 
 
     return (
@@ -11,7 +12,7 @@ const Dashboard = () => {
 
             <HeaderMegaMenu />
             <MantineCarousel />
-
+            <MantineStack></MantineStack>
 
 
             <Grid p={20}>
@@ -36,4 +37,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default Home

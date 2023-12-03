@@ -18,7 +18,7 @@ import { Transfer } from "./Transfer";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
-import Dashboard from "../pages/dashboard";
+import Home from "../pages/Home";
 
 // This is the default id used by the Hardhat Network
 const HARDHAT_NETWORK_ID = '31337';
@@ -78,7 +78,7 @@ export class Dapp extends React.Component {
         //   networkError={this.state.networkError}
         //   dismiss={() => this._dismissNetworkError()}
         // />
-        <Dashboard></Dashboard>
+        <Home></Home>
       );
     }
 
