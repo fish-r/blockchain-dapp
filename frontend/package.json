@@ -27,6 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "hardhat": "cd ../ && npx hardhat node && npx hardhat run scripts/deploy.js --network localhost",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
