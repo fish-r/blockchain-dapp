@@ -70,7 +70,7 @@ const mockdata = [
 export function HeaderMegaMenu(connectWallet) {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-    const [loginState, setLoginState] = useState({})
+    const [loginState, setLoginState] = useState(undefined)
     const theme = useMantineTheme();
 
 
@@ -157,12 +157,12 @@ export function HeaderMegaMenu(connectWallet) {
                     <Group visibleFrom="sm">
                         {loginState ?
 
-                            <Button id={loginState} variant='default' onClick={() => { }}>Profile</Button>
+                            <Button id={loginState} variant='default' onClick={() => { console.log(loginState) }}>Profile</Button>
 
-                            : <Button id={loginState} variant="default" onClick={() => {
-                                const addr = connectWallet.connectWallet()
+                            : <Button id={loginState} variant="default" onClick={async () => {
+                                const addr = await connectWallet.connectWallet()
                                 setLoginState(addr)
-                                console.log('addr', addr)
+                                console.log(addr)
                             }}>Log in</Button>}
                         <Button onClick={() => { console.log('stuff', loginState) }}>My Cart</Button>
                     </Group>

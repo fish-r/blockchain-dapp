@@ -43,7 +43,7 @@ const Home = () => {
     }
 
     const initialize = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const provider = new ethers.providers.JsonRpcProvider(window.ethereum);
         const check = await provider.getCode('0xe7f1725e7734ce288f8367e1bb143e90bb3f0512')
         console.log(check)
 
@@ -51,7 +51,7 @@ const Home = () => {
         const contract = new ethers.Contract(
             '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
             CopyrightArtifact.abi,
-            provider.getSigner(0)
+            provider
         )
 
         const test = await contract.getAllMusicCopyrights(10)
