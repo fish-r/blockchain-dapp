@@ -25,6 +25,7 @@ contract MusicCopyrightMarketplace {
     // Mapping from music copyright ID to its details
     mapping(uint256 => MusicCopyright) public musicCopyrights;
 
+    // An array of keys 
     uint256[] public keys;
 
     // Event to notify when a music copyright is listed for sale
@@ -33,17 +34,19 @@ contract MusicCopyrightMarketplace {
     // Event to notify when a music copyright is registered in profile
     event MusicCopyrightRegistered(uint256 indexed id, string image_url, address indexed artist, string artist_name, address indexed current_owner, string title);
 
-    // Evenet to notify when a music copyright is re-listed for sale
+    // Event to notify when a music copyright is re-listed for sale
     event MusicCopyrightReListed(uint256 indexed id, string image_url, address indexed artist, string artist_name, address indexed current_owner, string title, uint256 price);
+
+    // Event to notify when a music copyright is de-listed from marketplace
+    event MusicCopyrightDelisted(uint256 indexed id, string image_url, address indexed artist, string artist_name, address indexed current_owner, string title, uint256 price);
 
     // Event to notify when a music copyright is sold
     event MusicCopyrightSold(uint256 indexed id, address indexed buyer, uint256 price);
 
-    // Modifier to ensure only the owner can perform certain actions
-    // modifier onlyOwner() {
-    //     require(msg.sender == owner, "Not the owner");
-    //     _;
-    // }
+    modifier onlyCurrentOwnerOfCopyright (uint256 id) {
+        require(musicCopyrights[id].current_owner == msg.sender, "Not the owner of the music copyright");
+        _;
+    }
 
     modifier sufficientFunds(uint256 id, uint256 _amount) {
         require(_amount >= musicCopyrights[id].price, "Insufficient fund sent");
@@ -108,25 +111,23 @@ contract MusicCopyrightMarketplace {
         emit MusicCopyrightListed(id, image_url, msg.sender, artist_name, msg.sender, title, price);
     }
 
-    function reListMusicCopyright(uint256 id, uint256 priceInEther) public musicCopyRightExist(id){
-        require(musicCopyrights[id].current_owner == msg.sender, "Not the owner of the music");
+    //  Function to relist music into the marketplace
+    function reListMusicCopyright(uint256 id, uint256 priceInEther) public musicCopyRightExist(id) onlyCurrentOwnerOfCopyright(id){
 
         uint256 price = priceInEther * 1e18;
-        MusicCopyright memory oneMusicCopyright = MusicCopyright({
-            id: id,
-            image_url: musicCopyrights[id].image_url,
-            artist: musicCopyrights[id].artist,
-            artist_name: musicCopyrights[id].artist_name,
-            current_owner: musicCopyrights[id].current_owner,
-            title: musicCopyrights[id].title,
-            price: price,
-            isForSale: true
-        });
+        musicCopyrights[id].price = price;
+        musicCopyrights[id].isForSale = true;
 
-        musicCopyrights[id] = oneMusicCopyright;
-
-        emit MusicCopyrightReListed(id, oneMusicCopyright.image_url, oneMusicCopyright.artist, oneMusicCopyright.artist_name, oneMusicCopyright.current_owner, oneMusicCopyright.title, oneMusicCopyright.price);
+        emit MusicCopyrightReListed(id, musicCopyrights[id].image_url, musicCopyrights[id].artist, musicCopyrights[id].artist_name, musicCopyrights[id].current_owner, musicCopyrights[id].title, musicCopyrights[id].price);
     }
+
+    // Function to delist music from the marketplace
+    function delistMusicCopyright(uint256 id) public musicCopyRightExist(id) onlyCurrentOwnerOfCopyright(id) {
+        musicCopyrights[id].price = 0;
+        musicCopyrights[id].isForSale = false;
+
+        emit MusicCopyrightDelisted(id, musicCopyrights[id].image_url, musicCopyrights[id].artist, musicCopyrights[id].artist_name, musicCopyrights[id].current_owner, musicCopyrights[id].title, musicCopyrights[id].price);
+    } 
 
     // Function to buy a music copyright
     function buyMusicCopyright(uint256 id) external payable mustBeForSale(id) sufficientFunds(id, msg.value) noReentrancy{
@@ -144,37 +145,15 @@ contract MusicCopyrightMarketplace {
         // Mark the music copyright as sold
         musicCopyrights[id].isForSale = false;
         musicCopyrights[id].current_owner = msg.sender;
+        musicCopyrights[id].price = 0;
 
         emit MusicCopyrightSold(id, msg.sender, price);
     }
 
     // Function to retrieve the details of a music copyright
-    function getMusicCopyright(uint256 id) external view musicCopyRightExist(id)returns (uint256, string memory, address, string memory, address, string memory, uint256, bool) {
+    function getMusicCopyright(uint256 id) external view musicCopyRightExist(id)returns (MusicCopyright memory){
         MusicCopyright memory music = musicCopyrights[id];
-        return (id, music.image_url, music.artist, music.artist_name, music.current_owner, music.title, music.price, music.isForSale);
-    }
-
-    // Function to get a list of music copyrights currently listed for sale
-    function getMusicCopyrightsForSale(uint256 size) external view returns (MusicCopyright[] memory) {
-        MusicCopyright[] memory musics = new MusicCopyright[](size);
-
-        for (uint256 id = 0; id < size; id++) { 
-            MusicCopyright memory music;
-            if (musicCopyrights[id].artist != address(0)){
-                if (musicCopyrights[id].isForSale) {
-                    music.id = musicCopyrights[id].id;
-                    music.image_url = musicCopyrights[id].image_url;
-                    music.artist = musicCopyrights[id].artist;
-                    music.artist_name = musicCopyrights[id].artist_name;
-                    music.current_owner = musicCopyrights[id].current_owner;
-                    music.title = musicCopyrights[id].title;
-                    music.price = musicCopyrights[id].price;
-                    music.isForSale = musicCopyrights[id].isForSale;
-                }
-            }
-            musics[id] = music;
-        }
-        return musics;
+        return music;
     }
 
     // Function to get a list of music copyrights

@@ -12,6 +12,15 @@ async function main() {
       title: `title ${index}`,
       price: index
     })
+    console.log("Listed Music: ", listMusic);
+
+    const musicCopyright = await myContract.getMusicCopyright(1);
+
+    console.log("Music copyright id 1", musicCopyright);
+
+    const mappingKeys = await myContract.getMappingKeys();
+
+    console.log("All Music copyright", mappingKeys[0]);
   }
 
   const obj = {
