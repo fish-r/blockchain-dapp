@@ -28,6 +28,9 @@ contract MusicCopyrightMarketplace {
     // Event to notify when a music copyright is listed for sale
     event MusicCopyrightListed(uint256 indexed id, string image_url, address indexed artist, string artist_name, address indexed current_owner, string title, uint256 price);
 
+    // Event to notify when a music copyright is registered in profile
+    event MusicCopyrightRegistered(uint256 indexed id, string image_url, address indexed artist, string artist_name, address indexed current_owner, string title);
+
     // Evenet to notify when a music copyright is re-listed for sale
     event MusicCopyrightReListed(uint256 indexed id, string image_url, address indexed artist, string artist_name, address indexed current_owner, string title, uint256 price);
 
@@ -61,6 +64,24 @@ contract MusicCopyrightMarketplace {
     modifier mustBeForSale(uint256 id) { 
         require(musicCopyrights[id].isForSale, "Music copyright not for sale");
         _;
+    }
+
+    // Function to allow the owner to register a new music copyright in the profile
+    function registerMusicCopyright(uint256 id, string memory image_url, string memory artist_name, string memory title) external {
+        require(musicCopyrights[id].artist == address(0), "Music copyright ID already exists");
+        
+        musicCopyrights[id] = MusicCopyright({
+            id: id,
+            image_url: image_url,
+            artist: msg.sender,
+            artist_name: artist_name,
+            current_owner: msg.sender,
+            title: title,
+            price: 0,
+            isForSale: false
+        });
+
+        emit MusicCopyrightRegistered(id, image_url, msg.sender, artist_name, msg.sender, title);
     }
 
     // Function to allow the owner to list a new music copyright for sale
@@ -148,6 +169,7 @@ contract MusicCopyrightMarketplace {
             }
             musics[id] = music;
         }
+        require(musicCopyrights[0].artist != address(0), "Currently no data found");
         return musics;
     }
 
@@ -168,6 +190,29 @@ contract MusicCopyrightMarketplace {
             }
             musics[id] = music;
         }
+        require(musicCopyrights[0].artist != address(0), "Currently no data found");
+        return musics;
+    }
+
+    function getOwnMusicCopyrights (uint256 size) external view returns (MusicCopyright[] memory) {
+        MusicCopyright[] memory musics = new MusicCopyright[](size);
+
+        for (uint256 id = 0; id < size; id++) { 
+            MusicCopyright memory music;
+            if (musicCopyrights[id].artist != address(0)){
+                if (musicCopyrights[id].current_owner == msg.sender) {
+                    music.id = music.id;
+                    music.image_url = music.image_url;
+                    music.artist = music.artist;
+                    music.artist_name = music.artist_name;
+                    music.current_owner = music.current_owner;
+                    music.title = music.title;
+                    music.price = music.price;
+                }
+            }
+            musics[id] = music;
+        }
+        require(musicCopyrights[0].artist != address(0), "Currently no data found");
         return musics;
     }
 
