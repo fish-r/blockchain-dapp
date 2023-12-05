@@ -8,8 +8,8 @@ async function main() {
   if (network.name === "hardhat") {
     console.warn(
       "You are trying to deploy a contract to the Hardhat Network, which" +
-        "gets automatically created and destroyed every time. Use the Hardhat" +
-        " option '--network localhost'"
+      "gets automatically created and destroyed every time. Use the Hardhat" +
+      " option '--network localhost'"
     );
   }
 
@@ -34,6 +34,7 @@ async function main() {
   const Copyright = await ethers.getContractFactory("MusicCopyrightMarketplace");
   const copyright = await Copyright.deploy();
   await copyright.deployed();
+  saveFrontendFiles(copyright)
 
 }
 
@@ -51,10 +52,16 @@ function saveFrontendFiles(token) {
   );
 
   const TokenArtifact = artifacts.readArtifactSync("Token");
+  const CopyrightArtifact = artifacts.readArtifactSync("MusicCopyrightMarketplace");
 
   fs.writeFileSync(
     path.join(contractsDir, "Token.json"),
     JSON.stringify(TokenArtifact, null, 2)
+  );
+
+  fs.writeFileSync(
+    path.join(contractsDir, "CopyrightArtifact.json"),
+    JSON.stringify(CopyrightArtifact, null, 2)
   );
 }
 
