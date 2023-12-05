@@ -12,6 +12,7 @@ const Home = () => {
     const [selectedAddress, setSelectedAddress] = useState({})
     const [listings, setListings] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const [contract, setContract] = useState();
 
     const connectWallet = async () => {
         const [addr] = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -53,6 +54,12 @@ const Home = () => {
             provider
         )
 
+        const writeContract = new ethers.Contract(
+            '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+            CopyrightArtifact.abi,
+            provider.getSigner(0)
+        )
+        setContract(writeContract)
         try {
             const response = await contract.getMappingKeys()
             const listings = []
@@ -77,7 +84,7 @@ const Home = () => {
 
             <HeaderMegaMenu connectWallet={connectWallet} addr={selectedAddress} />
             <MantineCarousel />
-            <MantineStack isLoading={isLoading} listings={listings} ></MantineStack>
+            <MantineStack isLoading={isLoading} listings={listings} contract={contract} ></MantineStack>
 
 
             <Grid p={20}>

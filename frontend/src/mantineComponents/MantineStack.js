@@ -1,36 +1,6 @@
-import { Avatar, Table, Group, Text, ActionIcon, Menu, rem, Center, Button } from '@mantine/core';
-import {
-    IconPencil,
-    IconMessages,
-    IconNote,
-    IconReportAnalytics,
-    IconTrash,
-    IconDots,
-} from '@tabler/icons-react';
-import { Loader } from '@mantine/core';
+import { Avatar, Table, Group, Text, Button } from '@mantine/core';
 
-const data = [
-    {
-        id: '1',
-        image_url: "https://t4.ftcdn.net/jpg/00/10/33/17/360_F_10331779_PVOLBM8MIeDZW9H0vc3Cr0nLMoSEO8Le.jpg",
-        artist: 'Artist ID',
-        artist_name: 'Artist 1',
-        current_owner: 'Current Owner Id',
-        title: 'Album Title',
-        price: '321',
-        isForSale: true
-    },
-    {
-        id: '2',
-        image_url: "https://t4.ftcdn.net/jpg/00/10/33/17/360_F_10331779_PVOLBM8MIeDZW9H0vc3Cr0nLMoSEO8Le.jpg",
-        artist: 'Artist ID',
-        artist_name: 'Artist 1',
-        current_owner: 'Current Owner Id',
-        title: 'Album Title',
-        price: '321',
-        isForSale: true
-    }
-];
+import { Loader } from '@mantine/core';
 
 
 const Loading = () => {
@@ -89,47 +59,60 @@ const Loading = () => {
 
 
 export function MantineStack(props) {
+
     // listing is array of arrays
     // convert each array into obj
     const objArr = props.listings.map((each) => {
         return Object.assign({}, each)
     })
 
+    const purchase = async (listingId) => {
+        console.log('contract', props.contract)
+        const contract = props.contract;
+        try {
+            const result = await contract.buyMusicCopyright(listingId)
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const rows = objArr.map((item) => (
-        < Table.Tr key={item.id} >
-            <Table.Td>
-                <Group gap="lg">
-                    <Avatar size={40} src={item.image_url} radius={40} />
-                    <div>
-                        <Text fz="lg" fw={500}>
-                            {item.artist_name}
-                        </Text>
-                        <Text c="dimmed" fz="xs">
-                            {item.current_owner}
-                        </Text>
-                    </div>
-                </Group>
-            </Table.Td>
-            <Table.Td>
-                <Text fz="lg">{item.title}</Text>
-                <Text fz="xs" c="dimmed">
-                    Email
-                </Text>
-            </Table.Td>
-            <Table.Td>
-                <Text fz="lg">{(Number(item.price) / 1e18).toFixed(3)}</Text>
-                <Text fz="xs" c="dimmed">
-                    ETH
-                </Text>
-            </Table.Td>
 
-            <Table.Td>
-                <Group gap={0} justify="flex-start">
-                    <Button>Add to Cart</Button>
+        item.isForSale ?
+            <Table.Tr key={item.id} >
+                <Table.Td>
+                    <Group gap="lg">
+                        <Avatar size={40} src={item.image_url} radius={40} />
+                        <div>
+                            <Text fz="lg" fw={500}>
+                                {item.artist_name}
+                            </Text>
+                            <Text c="dimmed" fz="xs">
+                                {item.current_owner}
+                            </Text>
+                        </div>
+                    </Group>
+                </Table.Td>
+                <Table.Td>
+                    <Text fz="lg">{item.title}</Text>
+                    <Text fz="xs" c="dimmed">
+                        Email
+                    </Text>
+                </Table.Td>
+                <Table.Td>
+                    <Text fz="lg">{(Number(item.price) / 1e18).toFixed(3)}</Text>
+                    <Text fz="xs" c="dimmed">
+                        ETH
+                    </Text>
+                </Table.Td>
 
-                </Group>
-            </Table.Td>
-        </Table.Tr >
+                <Table.Td>
+                    <Group gap={0} justify="flex-start">
+                        <Button onClick={() => { purchase(item.id) }}> Add to Cart</Button>
+                    </Group>
+                </Table.Td>
+            </Table.Tr > : <></>
     ));
 
 
