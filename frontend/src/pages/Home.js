@@ -8,8 +8,12 @@ import CopyrightArtifact from "../contracts/CopyrightArtifact.json";
 import { useEffect, useState } from "react"
 
 const Home = () => {
-    const HARDHAT_NETWORK_ID = '31337';
+    const HARDHAT_NETWORK_ID = '1337';
     const [selectedAddress, setSelectedAddress] = useState({})
+    const [albumList, setAlbumList] = useState([{
+        id: '', image_url: '', artist: '', arist_name: '', current_owner: '', title: '', price: '', isForSale: '',
+    }]);
+    const [isLoading, setLoading] = useState(true);
 
     const connectWallet = async () => {
         const [addr] = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -52,8 +56,16 @@ const Home = () => {
             provider
         )
 
-        const response = await contract.getAllMusicCopyrights(10)
-        console.log(response)
+        try {
+            // const listMusic = await contract.listMusicCopyright(1, "www.drive.com", "Justin Bieber", "Sad", 2);
+            // console.log('list res', listMusic)
+            // const response = await contract.getMusicCopyright(1)
+            const response = await contract.getAllMusicCopyrights(10)
+            console.log('response', response)
+            setAlbumList(response);
+        } catch (error) {
+            console.log(error)
+        }
 
     }
 
