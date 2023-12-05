@@ -145,14 +145,15 @@ contract MusicCopyrightMarketplace {
         // Mark the music copyright as sold
         musicCopyrights[id].isForSale = false;
         musicCopyrights[id].current_owner = msg.sender;
+        musicCopyrights[id].price = 0;
 
         emit MusicCopyrightSold(id, msg.sender, price);
     }
 
     // Function to retrieve the details of a music copyright
-    function getMusicCopyright(uint256 id) external view musicCopyRightExist(id)returns (uint256, string memory, address, string memory, address, string memory, uint256, bool) {
+    function getMusicCopyright(uint256 id) external view musicCopyRightExist(id)returns (MusicCopyright memory){
         MusicCopyright memory music = musicCopyrights[id];
-        return (id, music.image_url, music.artist, music.artist_name, music.current_owner, music.title, music.price, music.isForSale);
+        return music;
     }
 
     // Function to get a list of music copyrights
