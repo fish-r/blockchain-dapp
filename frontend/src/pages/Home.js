@@ -59,10 +59,7 @@ const Home = () => {
             for (const id in response) {
                 const each = await contract.getMusicCopyright(id)
                 listings.push(each)
-                console.log('each', each)
             }
-            console.log('listings', listings)
-
             setListings(listings);
         } catch (error) {
             console.log(error)
@@ -80,7 +77,7 @@ const Home = () => {
 
             <HeaderMegaMenu connectWallet={connectWallet} addr={selectedAddress} />
             <MantineCarousel />
-            <MantineStack isLoading={isLoading} listings={{ listings }} ></MantineStack>
+            <MantineStack isLoading={isLoading} listings={listings} ></MantineStack>
 
 
             <Grid p={20}>

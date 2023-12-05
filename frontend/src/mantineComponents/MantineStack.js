@@ -21,7 +21,7 @@ const data = [
         isForSale: true
     },
     {
-        id: '1',
+        id: '2',
         image_url: "https://t4.ftcdn.net/jpg/00/10/33/17/360_F_10331779_PVOLBM8MIeDZW9H0vc3Cr0nLMoSEO8Le.jpg",
         artist: 'Artist ID',
         artist_name: 'Artist 1',
@@ -89,12 +89,14 @@ const Loading = () => {
 
 
 export function MantineStack(props) {
-    console.log('MantineStack', props.isLoading)
-    console.log('MantineStack listings', props.listings)
+    // listing is array of arrays
+    // convert each array into obj
+    const objArr = props.listings.map((each) => {
+        return Object.assign({}, each)
+    })
 
-    const rows = data.map((item) => (
-
-        <Table.Tr key={item.id}>
+    const rows = objArr.map((item) => (
+        < Table.Tr key={item.id} >
             <Table.Td>
                 <Group gap="lg">
                     <Avatar size={40} src={item.image_url} radius={40} />
@@ -103,7 +105,7 @@ export function MantineStack(props) {
                             {item.artist_name}
                         </Text>
                         <Text c="dimmed" fz="xs">
-                            {item.artist_name}
+                            {item.current_owner}
                         </Text>
                     </div>
                 </Group>
@@ -115,7 +117,7 @@ export function MantineStack(props) {
                 </Text>
             </Table.Td>
             <Table.Td>
-                <Text fz="lg">${Number(item.price).toFixed(1)}</Text>
+                <Text fz="lg">{(Number(item.price) / 1e18).toFixed(3)}</Text>
                 <Text fz="xs" c="dimmed">
                     ETH
                 </Text>
@@ -124,51 +126,10 @@ export function MantineStack(props) {
             <Table.Td>
                 <Group gap={0} justify="flex-start">
                     <Button>Add to Cart</Button>
-                    {/* <ActionIcon variant="subtle" color="gray">
-                        <IconPencil style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                    </ActionIcon>
-                    <Menu
-                        transitionProps={{ transition: 'pop' }}
-                        withArrow
-                        position="bottom-end"
-                        withinPortal
-                    >
-                        <Menu.Target>
-                            <ActionIcon variant="subtle" color="gray">
-                                <IconDots style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                            </ActionIcon>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Menu.Item
-                                leftSection={
-                                    <IconMessages style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                                }
-                            >
-                                Send message
-                            </Menu.Item>
-                            <Menu.Item
-                                leftSection={<IconNote style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                            >
-                                Add note
-                            </Menu.Item>
-                            <Menu.Item
-                                leftSection={
-                                    <IconReportAnalytics style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                                }
-                            >
-                                Analytics
-                            </Menu.Item>
-                            <Menu.Item
-                                leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                                color="red"
-                            >
-                                Terminate contract
-                            </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu> */}
+
                 </Group>
             </Table.Td>
-        </Table.Tr>
+        </Table.Tr >
     ));
 
 
