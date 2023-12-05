@@ -1,4 +1,4 @@
-import { Avatar, Table, Group, Text, ActionIcon, Menu, rem } from '@mantine/core';
+import { Avatar, Table, Group, Text, ActionIcon, Menu, rem, Center } from '@mantine/core';
 import {
     IconPencil,
     IconMessages,
@@ -7,6 +7,7 @@ import {
     IconTrash,
     IconDots,
 } from '@tabler/icons-react';
+import { Loader } from '@mantine/core';
 
 const data = [
     {
@@ -51,7 +52,66 @@ const data = [
     },
 ];
 
-export function MantineStack() {
+
+const Loading = () => {
+    return (
+        <>
+            <Table verticalSpacing="md">
+                <Table.Th>Artist</Table.Th>
+                <Table.Th>Album</Table.Th>
+                <Table.Th>Floor Price</Table.Th>
+                <Table.Th>Action</Table.Th>
+                <Table.Tr>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                </Table.Tr>
+                <Table.Tr>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                </Table.Tr>  <Table.Tr>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                </Table.Tr>
+            </Table>
+        </>
+    )
+}
+
+
+export function MantineStack(props) {
+    console.log('MantineStack', props.isLoading)
+    console.log('MantineStack listings', props.listings)
+
     const rows = data.map((item) => (
 
         <Table.Tr key={item.name}>
@@ -129,18 +189,24 @@ export function MantineStack() {
         </Table.Tr>
     ));
 
+
     return (
-        <Table.ScrollContainer minWidth={800} p={20}>
+        <>
+            <Table.ScrollContainer minWidth={800} p={20}>
+                {props.isLoading ?
+                    <Loading></Loading> :
+                    <Table verticalSpacing="md">
 
-            <Table verticalSpacing="md">
+                        <Table.Th>Artist</Table.Th>
+                        <Table.Th>Album</Table.Th>
+                        <Table.Th>Floor Price</Table.Th>
 
-                <Table.Th>Artist</Table.Th>
-                <Table.Th>Album</Table.Th>
-                <Table.Th>Floor Price</Table.Th>
-                <Table.Th>Volume</Table.Th>
-                <Table.Tbody>{rows}</Table.Tbody>
-            </Table>
-        </Table.ScrollContainer>
+                        <Table.Tbody>{rows}</Table.Tbody>
+                    </Table>
+                }
+            </Table.ScrollContainer>
+        </>
+
     );
 }
 export default MantineStack;

@@ -8,11 +8,9 @@ import CopyrightArtifact from "../contracts/CopyrightArtifact.json";
 import { useEffect, useState } from "react"
 
 const Home = () => {
-    const HARDHAT_NETWORK_ID = '1337';
+    const HARDHAT_NETWORK_ID = '31337';
     const [selectedAddress, setSelectedAddress] = useState({})
-    const [albumList, setAlbumList] = useState([{
-        id: '', image_url: '', artist: '', arist_name: '', current_owner: '', title: '', price: '', isForSale: '',
-    }]);
+    const [listings, setListings] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
     const connectWallet = async () => {
@@ -57,9 +55,6 @@ const Home = () => {
         )
 
         try {
-            // const listMusic = await contract.listMusicCopyright(1, "www.drive.com", "Justin Bieber", "Sad", 2);
-            // console.log('list res', listMusic)
-            // const response = await contract.getMusicCopyright(1)
             const response = await contract.getMappingKeys()
             console.log('response', response)
             const listings = []
@@ -69,21 +64,24 @@ const Home = () => {
             }
             console.log(listings)
 
-            setAlbumList(response);
+            setListings(listings);
         } catch (error) {
             console.log(error)
         }
 
     }
 
-    useEffect(() => { initialize() }, [])
+    useEffect(() => {
+        initialize();
+        if (listings.length > 0) setLoading(false)
+    }, [listings.length])
 
     return (
         <>
 
             <HeaderMegaMenu connectWallet={connectWallet} addr={selectedAddress} />
             <MantineCarousel />
-            <MantineStack></MantineStack>
+            <MantineStack isLoading={isLoading} listings={{ listings }} ></MantineStack>
 
 
             <Grid p={20}>
