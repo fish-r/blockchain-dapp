@@ -12,9 +12,9 @@ async function main() {
     
     console.log("Music copyright id 1", musicCopyright);
 
-    const allmusicCopyright = await myContract.getMusicCopyrightsForSale(10);
+    const mappingKeys = await myContract.getMappingKeys();
 
-    console.log("All Music copyright", musicCopyright);
+    console.log("All Music copyright", mappingKeys[0]);
   }
   
   main()
