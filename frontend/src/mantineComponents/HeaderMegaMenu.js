@@ -32,10 +32,6 @@ import {
 } from '@tabler/icons-react';
 import classes from './HeaderMegaMenu.module.css';
 import { useState } from 'react';
-import { ethers } from "ethers";
-import TokenArtifact from "../contracts/Token.json";
-import contractAddress from "../contracts/contract-address.json";
-
 const mockdata = [
     {
         icon: IconCode,
@@ -70,117 +66,12 @@ const mockdata = [
 ];
 
 
-const initialState = {
-    // The info of the token (i.e. It's Name and symbol)
-    tokenData: undefined,
-    // The user's address and balance
-    selectedAddress: undefined,
-    balance: undefined,
-    // The ID about transactions being sent, and any possible error with them
-    txBeingSent: undefined,
-    transactionError: undefined,
-    networkError: undefined,
-};
 
-
-export function HeaderMegaMenu() {
+export function HeaderMegaMenu(connectWallet) {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-    const [loginState, setLoginState] = useState(initialState)
+    const [loginState, setLoginState] = useState({})
     const theme = useMantineTheme();
-    const HARDHAT_NETWORK_ID = '1337';
-
-    const connectWallet = async () => {
-        const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        checkNetwork();
-
-        initialize(selectedAddress);
-
-        // We reinitialize it whenever the user changes their account.
-        window.ethereum.on("accountsChanged", ([newAddress]) => {
-            stopPollingData();
-            // `accountsChanged` event can be triggered with an undefined newAddress.
-            // This happens when the user removes the Dapp from the "Connected
-            // list of sites allowed access to your addresses" (Metamask > Settings > Connections)
-            // To avoid errors, we reset the dapp state 
-            if (newAddress === undefined) {
-                return resetState();
-            }
-
-            initialize(newAddress);
-        });
-    }
-    const initialize = async (userAddress) => {
-        console.log('init', userAddress)
-        setLoginState({ ...loginState, selectedAddress: userAddress })
-        // poll for bal
-        // Fetching the token data and the user's balance are specific to this
-        // sample project, but you can reuse the same initialization pattern.
-        const contract = await initializeEthers(userAddress);
-        console.log('contract,', contract);
-        const bal = await contract.name()
-        console.log('bal', bal)
-        // getTokenData(contract);
-        // startPollingData(contract);
-    }
-
-    const initializeEthers = async (userAddress) => {
-        // We first initialize ethers by creating a provider using window.ethereum
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-        // Then, we initialize the contract using that provider and the token's
-        // artifact. You can do this same thing with your contracts.
-        const contract = new ethers.Contract(
-            contractAddress.Token,
-            TokenArtifact.abi,
-            provider.getSigner(0)
-        );
-        return contract;
-    }
-
-
-    const startPollingData = (contract) => {
-        setInterval(() => updateBalance(contract), 1000);
-        updateBalance(contract);
-    }
-
-    const stopPollingData = () => {
-        clearInterval();
-    }
-
-
-    const getTokenData = async (contract) => {
-        const name = await contract.name();
-        const symbol = await contract.symbol();
-
-        setLoginState({ ...loginState, tokenData: { name, symbol } });
-    }
-
-    const updateBalance = async (contract) => {
-        const balance = await contract.balanceOf(loginState.selectedAddress);
-        setLoginState({ ...loginState, balance: balance })
-    }
-
-    // This method resets the state
-    const resetState = () => {
-        setLoginState(initialState);
-    }
-
-    const switchChain = async () => {
-        const chainIdHex = `0x${HARDHAT_NETWORK_ID.toString(16)}`
-        await window.ethereum.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId: chainIdHex }],
-        });
-        await initialize(loginState.selectedAddress);
-    }
-
-    // This method checks if the selected network is Localhost:8545
-    const checkNetwork = async () => {
-        if (window.ethereum.networkVersion !== HARDHAT_NETWORK_ID) {
-            switchChain();
-        }
-    }
 
 
     const links = mockdata.map((item) => (
@@ -264,12 +155,14 @@ export function HeaderMegaMenu() {
                     </Group>
 
                     <Group visibleFrom="sm">
-                        {loginState.selectedAddress ?
+                        {loginState ?
 
-                            <Button id={loginState} variant='default' onClick={() => initialize(loginState.selectedAddress)}>Profile</Button>
+                            <Button id={loginState} variant='default' onClick={() => { }}>Profile</Button>
 
                             : <Button id={loginState} variant="default" onClick={() => {
-                                connectWallet()
+                                const addr = connectWallet.connectWallet()
+                                setLoginState(addr)
+                                console.log('addr', addr)
                             }}>Log in</Button>}
                         <Button onClick={() => { console.log('stuff', loginState) }}>My Cart</Button>
                     </Group>

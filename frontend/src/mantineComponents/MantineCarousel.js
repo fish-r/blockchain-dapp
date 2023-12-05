@@ -3,11 +3,10 @@ import { Image } from '@mantine/core';
 
 const images = ['https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png',
     'https://i.insider.com/599db8c024fbd13c008b4610?width=1000&format=jpeg&auto=webp',
-    'https://i.insider.com/599db8c024fbd13c008b4610?width=1000&format=jpeg&auto=webp',
-    'https://i.insider.com/599db8c024fbd13c008b4610?width=1000&format=jpeg&auto=webp',
-    'https://i.insider.com/599db8c024fbd13c008b4610?width=1000&format=jpeg&auto=webp',
+    // 'https://i.insider.com/599db8c024fbd13c008b4610?width=1000&format=jpeg&auto=webp',
+    // 'https://i.insider.com/599db8c024fbd13c008b4610?width=1000&format=jpeg&auto=webp',
+    // 'https://i.insider.com/599db8c024fbd13c008b4610?width=1000&format=jpeg&auto=webp',
 ];
-
 
 
 function MantineCarousel() {
