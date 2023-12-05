@@ -14,14 +14,24 @@ async function main() {
     })
   }
 
-  musicList.map(async (each) => {
-    console.log('each', each)
-    const listMusic = await myContract.listMusicCopyright(
-      each.id, each.image_url, each.artist_name, each.title, each.price
-    )
-    console.log(listMusic)
-  })
+  const obj = {
+    id: 1,
+    image_url: 'https://t4.ftcdn.net/jpg/00/10/33/17/360_F_10331779_PVOLBM8MIeDZW9H0vc3Cr0nLMoSEO8Le.jpg',
+    artist_name: `artist${1}`,
+    title: `title ${1}`,
+    price: 3
+  }
+  // musicList.map(async (each) => {
+  //   const listMusic = await myContract.listMusicCopyright(
+  //     each.id, each.image_url, each.artist_name, each.title, each.price
+  //   )
+  //   console.log(listMusic)
+  // })
 
+  const listMusic = await myContract.listMusicCopyright(
+    obj.id, obj.image_url, obj.artist_name, obj.title, obj.price
+  )
+  console.log(listMusic)
   // Call contract functions or perform interactions here
   // const listMusic = await myContract.listMusicCopyright(1, "www.drive.com", "Justin Bieber", "Sad", 2);
 
@@ -31,9 +41,12 @@ async function main() {
 
   // console.log("Music copyright id 1", musicCopyright);
 
-  const allmusicCopyright = await myContract.getAllMusicCopyrights(10);
+  const allmusicCopyright = await myContract.getMappingKeys();
+  // const single = await myContract.getMusicCopyright(1);
+
 
   console.log("All Music copyright", allmusicCopyright);
+  // console.log("Single", single);
 }
 
 main()

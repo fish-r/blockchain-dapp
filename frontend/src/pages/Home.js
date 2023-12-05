@@ -60,8 +60,15 @@ const Home = () => {
             // const listMusic = await contract.listMusicCopyright(1, "www.drive.com", "Justin Bieber", "Sad", 2);
             // console.log('list res', listMusic)
             // const response = await contract.getMusicCopyright(1)
-            const response = await contract.getAllMusicCopyrights(10)
+            const response = await contract.getMappingKeys()
             console.log('response', response)
+            const listings = []
+            for (const id in response) {
+                const each = await contract.getMusicCopyright(id)
+                listings.push(each)
+            }
+            console.log(listings)
+
             setAlbumList(response);
         } catch (error) {
             console.log(error)
