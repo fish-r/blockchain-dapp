@@ -25,6 +25,8 @@ contract MusicCopyrightMarketplace {
     // Mapping from music copyright ID to its details
     mapping(uint256 => MusicCopyright) public musicCopyrights;
 
+    uint256[] public keys;
+
     // Event to notify when a music copyright is listed for sale
     event MusicCopyrightListed(uint256 indexed id, string image_url, address indexed artist, string artist_name, address indexed current_owner, string title, uint256 price);
 
@@ -80,6 +82,7 @@ contract MusicCopyrightMarketplace {
             price: 0,
             isForSale: false
         });
+        keys.push(id);
 
         emit MusicCopyrightRegistered(id, image_url, msg.sender, artist_name, msg.sender, title);
     }
@@ -100,6 +103,7 @@ contract MusicCopyrightMarketplace {
             price: price,
             isForSale: true
         });
+        keys.push(id);
 
         emit MusicCopyrightListed(id, image_url, msg.sender, artist_name, msg.sender, title, price);
     }
@@ -165,55 +169,17 @@ contract MusicCopyrightMarketplace {
                     music.current_owner = musicCopyrights[id].current_owner;
                     music.title = musicCopyrights[id].title;
                     music.price = musicCopyrights[id].price;
+                    music.isForSale = musicCopyrights[id].isForSale;
                 }
             }
             musics[id] = music;
         }
-        require(musicCopyrights[0].artist != address(0), "Currently no data found");
         return musics;
     }
 
     // Function to get a list of music copyrights
-    function getAllMusicCopyrights(uint256 size) external view returns (MusicCopyright[] memory) {
-        MusicCopyright[] memory musics = new MusicCopyright[](size);
-
-        for (uint256 id = 0; id < size; id++) { 
-            MusicCopyright memory music;
-            if (musicCopyrights[id].artist != address(0)){
-                music.id = musicCopyrights[id].id;
-                music.image_url = musicCopyrights[id].image_url;
-                music.artist = musicCopyrights[id].artist;
-                music.artist_name = musicCopyrights[id].artist_name;
-                music.current_owner = musicCopyrights[id].current_owner;
-                music.title = musicCopyrights[id].title;
-                music.price = musicCopyrights[id].price;
-            }
-            musics[id] = music;
-        }
-        require(musicCopyrights[0].artist != address(0), "Currently no data found");
-        return musics;
-    }
-
-    function getOwnMusicCopyrights (uint256 size) external view returns (MusicCopyright[] memory) {
-        MusicCopyright[] memory musics = new MusicCopyright[](size);
-
-        for (uint256 id = 0; id < size; id++) { 
-            MusicCopyright memory music;
-            if (musicCopyrights[id].artist != address(0)){
-                if (musicCopyrights[id].current_owner == msg.sender) {
-                    music.id = music.id;
-                    music.image_url = music.image_url;
-                    music.artist = music.artist;
-                    music.artist_name = music.artist_name;
-                    music.current_owner = music.current_owner;
-                    music.title = music.title;
-                    music.price = music.price;
-                }
-            }
-            musics[id] = music;
-        }
-        require(musicCopyrights[0].artist != address(0), "Currently no data found");
-        return musics;
+    function getMappingKeys() external view returns (uint256[] memory) {
+        return keys;
     }
 
     receive() external payable {
