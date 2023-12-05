@@ -1,0 +1,100 @@
+{
+	"compiler": {
+		"version": "0.8.22+commit.4fc1097e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_musicId",
+						"type": "bytes32"
+					}
+				],
+				"name": "getCopyrightFromCatalogue",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "musicTitle",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "authorName",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "creationDate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "copyrightPrice",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct MusicCatalogue.CopyrightDetails",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/music_marketplace.sol": "MusicCatalogue"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/music_marketplace.sol": {
+			"keccak256": "0x77e30f54cc9797e018b8736cbe501e1201766562aa0f5f7e0218a22900e9b174",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3d9d84d6da04d71ab9a7a2c1e275ff23608739b6147745d2004152e3b41bc71f",
+				"dweb:/ipfs/Qmeo6Yjat5jeefd7uR8ZHCCLE3DeHAFsQPxR6Nz7PsXQBL"
+			]
+		},
+		"contracts/register_music_copyright.sol": {
+			"keccak256": "0xa268b210fc90ff909e0d6b1eaddc0c2391cb7e7f59042167838d14f65f1fed7e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e60dea175e839ec7102a6061d394643cf59bbdae8b5b55198d0340a6a1ec4733",
+				"dweb:/ipfs/QmZjeAka4uNDXJdoBzfpbNcXQn4ktHJCTp3W7pTFqPxsJt"
+			]
+		}
+	},
+	"version": 1
+}
