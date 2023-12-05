@@ -32,6 +32,8 @@ import {
 } from '@tabler/icons-react';
 import classes from './HeaderMegaMenu.module.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const mockdata = [
     {
         icon: IconCode,
@@ -66,13 +68,18 @@ const mockdata = [
 ];
 
 
-
 export function HeaderMegaMenu(connectWallet) {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const [loginState, setLoginState] = useState(undefined)
     const theme = useMantineTheme();
 
+
+    const navigate = useNavigate();
+
+    const navigateToProfile = () => {
+        navigate('/profile');
+    };
 
     const links = mockdata.map((item) => (
         <UnstyledButton className={classes.subLink} key={item.title}>
@@ -157,7 +164,7 @@ export function HeaderMegaMenu(connectWallet) {
                     <Group visibleFrom="sm">
                         {loginState ?
 
-                            <Button id={loginState} variant='default' onClick={() => { console.log(loginState) }}>Profile</Button>
+                            <Button id={loginState} variant='default' onClick={navigateToProfile}>Profile</Button>
 
                             : <Button id={loginState} variant="default" onClick={async () => {
                                 const addr = await connectWallet.connectWallet()
