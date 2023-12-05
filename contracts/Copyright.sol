@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.4;
+pragma solidity ^0.8.0;
 
 contract MusicCopyrightMarketplace {
     address payable public owner;
@@ -7,6 +7,7 @@ contract MusicCopyrightMarketplace {
     bool private locked;
     
     struct MusicCopyright {
+        string ipfsHash;
         address artist;
         address current_owner;
         string title;
@@ -23,10 +24,10 @@ contract MusicCopyrightMarketplace {
     mapping(uint256 => MusicCopyright) public musicCopyrights;
 
     // Event to notify when a music copyright is listed for sale
-    event MusicCopyrightListed(uint256 indexed id, address indexed artist, address indexed current_owner, string title, uint256 price);
+    event MusicCopyrightListed(uint256 indexed id, string ipfsHash, address indexed artist, address indexed current_owner, string title, uint256 price);
 
     // Evenet to notify when a music copyright is re-listed for sale
-    event MusicCopyrightReListed(uint256 indexed id, address indexed artist, address indexed current_owner, string title, uint256 price);
+    event MusicCopyrightReListed(uint256 indexed id, string ipfsHash, address indexed artist, address indexed current_owner, string title, uint256 price);
 
     // Event to notify when a music copyright is sold
     event MusicCopyrightSold(uint256 indexed id, address indexed buyer, uint256 price);
@@ -55,18 +56,19 @@ contract MusicCopyrightMarketplace {
     }
 
     // Modifier to ensure a music copyright is listed for sale
-    modifier mustBeForSale(uint256 id) {
+    modifier mustBeForSale(uint256 id) { 
         require(musicCopyrights[id].isForSale, "Music copyright not for sale");
         _;
     }
 
     // Function to allow the owner to list a new music copyright for sale
-    function listMusicCopyright(uint256 id, string memory title, uint256 priceInEther) external {
+    function listMusicCopyright(uint256 id, string memory ipfsHash, string memory title, uint256 priceInEther) external {
         require(musicCopyrights[id].artist == address(0), "Music copyright ID already exists");
         
         // Convert Ether to Wei
         uint256 price = priceInEther * 1e18;
         musicCopyrights[id] = MusicCopyright({
+            ipfsHash: ipfsHash,
             artist: msg.sender,
             current_owner: msg.sender,
             title: title,
@@ -74,7 +76,7 @@ contract MusicCopyrightMarketplace {
             isForSale: true
         });
 
-        emit MusicCopyrightListed(id, msg.sender, msg.sender, title, price);
+        emit MusicCopyrightListed(id, ipfsHash, msg.sender, msg.sender, title, price);
     }
 
     function reListMusicCopyright(uint256 id, uint256 priceInEther) public musicCopyRightExist(id){
@@ -82,6 +84,7 @@ contract MusicCopyrightMarketplace {
 
         uint256 price = priceInEther * 1e18;
         MusicCopyright memory oneMusicCopyright = MusicCopyright({
+            ipfsHash: musicCopyrights[id].ipfsHash,
             artist: musicCopyrights[id].artist,
             current_owner: musicCopyrights[id].current_owner,
             title: musicCopyrights[id].title,
@@ -91,7 +94,7 @@ contract MusicCopyrightMarketplace {
 
         musicCopyrights[id] = oneMusicCopyright;
 
-        emit MusicCopyrightReListed(id, oneMusicCopyright.artist, oneMusicCopyright.current_owner, oneMusicCopyright.title, oneMusicCopyright.price);
+        emit MusicCopyrightReListed(id, oneMusicCopyright.ipfsHash, oneMusicCopyright.artist, oneMusicCopyright.current_owner, oneMusicCopyright.title, oneMusicCopyright.price);
     }
 
     // Function to buy a music copyright
@@ -115,9 +118,9 @@ contract MusicCopyrightMarketplace {
     }
 
     // Function to retrieve the details of a music copyright
-    function getMusicCopyright(uint256 id) external view musicCopyRightExist(id)returns (address, address, string memory, uint256, bool) {
+    function getMusicCopyright(uint256 id) external view musicCopyRightExist(id)returns (string memory, address, address, string memory, uint256, bool) {
         MusicCopyright memory music = musicCopyrights[id];
-        return (music.artist, music.current_owner, music.title, music.price, music.isForSale);
+        return (music.ipfsHash, music.artist, music.current_owner, music.title, music.price, music.isForSale);
     }
 
     receive() external payable {

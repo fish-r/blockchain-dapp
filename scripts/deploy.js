@@ -30,6 +30,11 @@ async function main() {
 
   // We also save the contract's artifacts and address in the frontend directory
   saveFrontendFiles(token);
+
+  const Copyright = await ethers.getContractFactory("MusicCopyrightMarketplace");
+  const copyright = await Copyright.deploy();
+  await copyright.deployed();
+
 }
 
 function saveFrontendFiles(token) {
