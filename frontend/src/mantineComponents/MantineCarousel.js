@@ -8,15 +8,6 @@ const images = ['https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1
     'https://i.insider.com/599db8c024fbd13c008b4610?width=1000&format=jpeg&auto=webp',
 ];
 
-// function MantineCarousel() {
-//     const slides = images.map((url) => (
-//         <Carousel.Slide key={url} h={200}>
-//             <Image src={url} sizes='xs' />
-//         </Carousel.Slide>
-//     ));
-
-//     return <Carousel withIndicators>{slides}</Carousel>;
-// }
 
 
 function MantineCarousel() {
@@ -43,3 +34,14 @@ function MantineCarousel() {
 }
 
 export default MantineCarousel;
+
+
+// function MantineCarousel() {
+//     const slides = images.map((url) => (
+//         <Carousel.Slide key={url} h={200}>
+//             <Image src={url} sizes='xs' />
+//         </Carousel.Slide>
+//     ));
+
+//     return <Carousel withIndicators>{slides}</Carousel>;
+// }
