@@ -1,4 +1,4 @@
-import { Avatar, Table, Group, Text, ActionIcon, Menu, rem, Center } from '@mantine/core';
+import { Avatar, Table, Group, Text, ActionIcon, Menu, rem, Center, Button } from '@mantine/core';
 import {
     IconPencil,
     IconMessages,
@@ -11,45 +11,25 @@ import { Loader } from '@mantine/core';
 
 const data = [
     {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-        name: 'Robert Wolfkisser',
-        job: 'Engineer',
-        email: 'rob_wolf@gmail.com',
-        rate: 22,
+        id: '1',
+        image_url: "https://t4.ftcdn.net/jpg/00/10/33/17/360_F_10331779_PVOLBM8MIeDZW9H0vc3Cr0nLMoSEO8Le.jpg",
+        artist: 'Artist ID',
+        artist_name: 'Artist 1',
+        current_owner: 'Current Owner Id',
+        title: 'Album Title',
+        price: '321',
+        isForSale: true
     },
     {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
-        name: 'Jill Jailbreaker',
-        job: 'Engineer',
-        email: 'jj@breaker.com',
-        rate: 45,
-    },
-    {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-        name: 'Henry Silkeater',
-        job: 'Designer',
-        email: 'henry@silkeater.io',
-        rate: 76,
-    },
-    {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-        name: 'Bill Horsefighter',
-        job: 'Designer',
-        email: 'bhorsefighter@gmail.com',
-        rate: 15,
-    },
-    {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-        name: 'Jeremy Footviewer',
-        job: 'Manager',
-        email: 'jeremy@foot.dev',
-        rate: 98,
-    },
+        id: '1',
+        image_url: "https://t4.ftcdn.net/jpg/00/10/33/17/360_F_10331779_PVOLBM8MIeDZW9H0vc3Cr0nLMoSEO8Le.jpg",
+        artist: 'Artist ID',
+        artist_name: 'Artist 1',
+        current_owner: 'Current Owner Id',
+        title: 'Album Title',
+        price: '321',
+        isForSale: true
+    }
 ];
 
 
@@ -114,35 +94,37 @@ export function MantineStack(props) {
 
     const rows = data.map((item) => (
 
-        <Table.Tr key={item.name}>
+        <Table.Tr key={item.id}>
             <Table.Td>
-                <Group gap="sm">
-                    <Avatar size={40} src={item.avatar} radius={40} />
+                <Group gap="lg">
+                    <Avatar size={40} src={item.image_url} radius={40} />
                     <div>
-                        <Text fz="sm" fw={500}>
-                            {item.name}
+                        <Text fz="lg" fw={500}>
+                            {item.artist_name}
                         </Text>
                         <Text c="dimmed" fz="xs">
-                            {item.job}
+                            {item.artist_name}
                         </Text>
                     </div>
                 </Group>
             </Table.Td>
             <Table.Td>
-                <Text fz="sm">{item.email}</Text>
+                <Text fz="lg">{item.title}</Text>
                 <Text fz="xs" c="dimmed">
                     Email
                 </Text>
             </Table.Td>
             <Table.Td>
-                <Text fz="sm">${item.rate.toFixed(1)} / hr</Text>
+                <Text fz="lg">${Number(item.price).toFixed(1)}</Text>
                 <Text fz="xs" c="dimmed">
-                    Rate
+                    ETH
                 </Text>
             </Table.Td>
+
             <Table.Td>
-                <Group gap={0} justify="flex-end">
-                    <ActionIcon variant="subtle" color="gray">
+                <Group gap={0} justify="flex-start">
+                    <Button>Add to Cart</Button>
+                    {/* <ActionIcon variant="subtle" color="gray">
                         <IconPencil style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
                     </ActionIcon>
                     <Menu
@@ -183,7 +165,7 @@ export function MantineStack(props) {
                                 Terminate contract
                             </Menu.Item>
                         </Menu.Dropdown>
-                    </Menu>
+                    </Menu> */}
                 </Group>
             </Table.Td>
         </Table.Tr>
@@ -195,11 +177,12 @@ export function MantineStack(props) {
             <Table.ScrollContainer minWidth={800} p={20}>
                 {props.isLoading ?
                     <Loading></Loading> :
-                    <Table verticalSpacing="md">
+                    <Table verticalSpacing="lg">
 
                         <Table.Th>Artist</Table.Th>
                         <Table.Th>Album</Table.Th>
-                        <Table.Th>Floor Price</Table.Th>
+                        <Table.Th>Price</Table.Th>
+                        <Table.Th>Action</Table.Th>
 
                         <Table.Tbody>{rows}</Table.Tbody>
                     </Table>

@@ -1,4 +1,4 @@
-import { Grid, GridCol } from "@mantine/core"
+import { Grid } from "@mantine/core"
 import { BadgeCard } from "../mantineComponents/BadgeCard"
 import { HeaderMegaMenu } from "../mantineComponents/HeaderMegaMenu"
 import MantineCarousel from "../mantineComponents/MantineCarousel"
@@ -16,7 +16,6 @@ const Home = () => {
     const connectWallet = async () => {
         const [addr] = await window.ethereum.request({ method: 'eth_requestAccounts' });
         checkNetwork();
-        console.log(addr);
         // initialize(selectedAddress);
 
         // We reinitialize it whenever the user changes their account.
@@ -56,13 +55,13 @@ const Home = () => {
 
         try {
             const response = await contract.getMappingKeys()
-            console.log('response', response)
             const listings = []
             for (const id in response) {
                 const each = await contract.getMusicCopyright(id)
                 listings.push(each)
+                console.log('each', each)
             }
-            console.log(listings)
+            console.log('listings', listings)
 
             setListings(listings);
         } catch (error) {
