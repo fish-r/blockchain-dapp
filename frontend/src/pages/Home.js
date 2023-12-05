@@ -43,9 +43,7 @@ const Home = () => {
     }
 
     const initialize = async () => {
-        const provider = new ethers.providers.JsonRpcProvider(window.ethereum);
-        const check = await provider.getCode('0xe7f1725e7734ce288f8367e1bb143e90bb3f0512')
-        console.log(check)
+        const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
 
         // calling contract
         const contract = new ethers.Contract(
@@ -54,8 +52,9 @@ const Home = () => {
             provider
         )
 
-        const test = await contract.getAllMusicCopyrights(10)
-        console.log(test)
+        const response = await contract.getAllMusicCopyrights(10)
+        console.log(response)
+
     }
 
     useEffect(() => { initialize() }, [])
