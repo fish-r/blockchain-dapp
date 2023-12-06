@@ -66,7 +66,7 @@ const useEthers = () => {
             const mktListings = []
             const userListings = []
             const all = []
-            for (const id in response) {
+            for (const id of response) {
                 const each = await contract.getMusicCopyright(id)
                 const parsed = Object.assign({}, each)
                 const isOwner = parsed.current_owner.toUpperCase() === addr.toUpperCase();
