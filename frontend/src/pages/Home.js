@@ -1,4 +1,4 @@
-import { Grid, LoadingOverlay } from "@mantine/core"
+import { Grid, LoadingOverlay, Button, Text } from "@mantine/core"
 import { BadgeCard } from "../mantineComponents/BadgeCard"
 import { HeaderMegaMenu } from "../mantineComponents/HeaderMegaMenu"
 import MantineCarousel from "../mantineComponents/MantineCarousel"
@@ -8,7 +8,7 @@ import useEthers from "../hooks/useEthers"
 
 const Home = () => {
 
-    const { getListings, data } = useEthers();
+    const { getListings, connectWallet, data } = useEthers();
     const [isLoading, setLoading] = useState(false);
     console.log(data.allListings)
     useEffect(() => {
@@ -24,11 +24,12 @@ const Home = () => {
 
     return (
         <>
-
+            <Button onClick={async () => { console.log(await connectWallet()) }}></Button>
             <LoadingOverlay h={2000} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <HeaderMegaMenu />
             <MantineCarousel />
+            <Text fz="xl" fw={500}>Top Copyrights</Text>
             <MantineStack listings={tableListings} setLoading={setLoading} />
 
             <Grid p={20}>

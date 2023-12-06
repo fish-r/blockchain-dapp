@@ -7,7 +7,7 @@ const useEthers = () => {
 
     const HARDHAT_NETWORK_ID = '31337';
     // const contractAddress = '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512'
-    const [selectedAddress, setSelectedAddress] = useState()
+    const [selectedAddress, setSelectedAddress] = useState('')
     // listings refers to available for sale on mktplace = isForSale == True
     const [listings, setListings] = useState([]);
     const [balance, setBalance] = useState();
@@ -18,10 +18,7 @@ const useEthers = () => {
     const connectWallet = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const addresses = await provider.send("eth_requestAccounts", []);
-        console.log('addrsses', addresses)
-        setSelectedAddress(addresses.indexOf(0))
         // checkNetwork();
-
         // We reinitialize it whenever the user changes their account.
         window.ethereum.on("accountsChanged", ([newAddress]) => {
             // stopPollingData();
@@ -31,7 +28,8 @@ const useEthers = () => {
             // initialize(newAddress);
             setSelectedAddress(newAddress)
         });
-        // return addr
+        setSelectedAddress(addresses[0])
+        return addresses[0];
     }
 
     const getBalance = async () => {
@@ -56,6 +54,7 @@ const useEthers = () => {
     }
 
     const getListings = async () => {
+        await connectWallet()
         const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
         const contract = new ethers.Contract(
             '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
@@ -70,16 +69,16 @@ const useEthers = () => {
             for (const id in response) {
                 const each = await contract.getMusicCopyright(id)
                 const parsed = Object.assign({}, each)
-
-                console.log('sel', selectedAddress)
                 if (parsed.isForSale) mktListings.push(parsed)
-                if (parsed.current_owner === selectedAddress)
+                // funny issue where one letter is different casing
+                if (parsed.current_owner.toUpperCase() === selectedAddress.toUpperCase()) {
                     userListings.push(parsed)
-                all.push(parsed)
+                } all.push(parsed)
             }
             setListings(mktListings);
             setMyListings(userListings)
             setAllListings(all)
+            console.log('userListings', userListings)
             return listings;
         } catch (error) {
             console.log(error)

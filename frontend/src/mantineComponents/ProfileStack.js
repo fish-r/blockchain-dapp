@@ -89,13 +89,28 @@ export function ProfileStack(props) {
 
             <Table.Td>
                 <Group gap={0} justify="flex-start">
-                    <Button onClick={async () => {
-                        await connectWallet();
-                        props.setLoading(true);
-                        await purchaseListing(item)
-                        await getListings();
-                        props.setLoading(false)
-                    }}> Purchase</Button>
+
+                    {
+                        item.isForSale ? (
+                            <Button onClick={async () => {
+                                await connectWallet();
+                                props.setLoading(true);
+                                // unlist
+                                // await purchaseListing(item)
+                                await getListings();
+                                props.setLoading(false)
+                            }}> Unlist from Marketplace</Button>
+                        ) : (
+                            <Button onClick={async () => {
+                                await connectWallet();
+                                props.setLoading(true);
+                                await purchaseListing(item)
+                                await getListings();
+                                props.setLoading(false)
+                            }}> List For Sale</Button>
+                        )
+                    }
+
                 </Group>
             </Table.Td>
         </Table.Tr >
@@ -105,6 +120,7 @@ export function ProfileStack(props) {
     return (
         <>
             <Table.ScrollContainer minWidth={800} p={20}>
+                <Text fz="xl" fw={500}>My Copyrights</Text>
                 {!props.listings.length === 0 ?
                     <LoadingComponent /> :
                     <Table verticalSpacing="lg">
@@ -117,6 +133,7 @@ export function ProfileStack(props) {
                         <Table.Tbody>{rows}</Table.Tbody>
                     </Table>
                 }
+
             </Table.ScrollContainer>
         </>
 

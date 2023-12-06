@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { ProfileHeader } from './ProfileHeader'; // Import ProfileHeader component
 import MantineStack from './MantineStack';
-import useEthers from '../hooks/useEthers';
+
 import { useNavigate } from 'react-router-dom';
 import ProfileStack from './ProfileStack';
+import useEthers from '../hooks/useEthers';
 
 export function Profile() {
+    const { getMyCopyrights, getListings, connectWallet, data } = useEthers();
     const [activeTab, setActiveTab] = useState('My Rights'); // State to track the active tab
 
-    const { getListings, connectWallet, data } = useEthers();
     const [isLoading, setLoading] = useState(false);
-    console.log(data.listings)
+    console.log(data.myListings)
 
-    const allListings = data.myListings
+    const allListings = data.myListings;
 
     useEffect(() => {
-
-        getListings();
+        // getMyCopyrights()
         connectWallet();
+        getListings()
+        console.log(data.listings)
         if (!data.selectedAddress) {
             console.log('no sel')
         }
+
     }, [])
 
     return (

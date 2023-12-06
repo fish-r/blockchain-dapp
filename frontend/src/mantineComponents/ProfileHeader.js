@@ -17,23 +17,15 @@ import {
     IconLogout,
     IconChevronDown,
 } from '@tabler/icons-react';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import profileClasses from './ProfileHeader.module.css';
 
 export function ProfileHeader() {
-    const theme = useMantineTheme();
     const [opened, { toggle }] = useDisclosure(false);
     const [userMenuOpened, setUserMenuOpened] = useState(false);
     const [userAddress, setUserAddress] = useState('');
-    const tabs = ['My Rights'];
     const user = {
     };
 
-    const items = tabs.map((tab) => (
-        <Tabs.Tab value={tab} key={tab}>
-            {tab}
-        </Tabs.Tab>
-    ));
 
     // Function to fetch the user's address from MetaMask
     const fetchUserAddress = async () => {
@@ -69,7 +61,6 @@ export function ProfileHeader() {
         <div className={profileClasses.header}>
             <Container className={profileClasses.mainSection} size="md">
                 <Group justify="space-between">
-                    <MantineLogo size={28} />
 
                     <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
 
@@ -117,7 +108,6 @@ export function ProfileHeader() {
                         tab: profileClasses.tab,
                     }}
                 >
-                    <Tabs.List>{items}</Tabs.List>
                 </Tabs>
             </Container>
         </div>

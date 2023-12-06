@@ -63,7 +63,6 @@ export function MantineStack(props) {
     const { purchaseListing, getListings, connectWallet, data } = useEthers();
 
     const objArr = props.listings;
-    console.log(objArr)
     const rows = objArr?.map((item) => (
         <Table.Tr key={item.id} >
             <Table.Td>
