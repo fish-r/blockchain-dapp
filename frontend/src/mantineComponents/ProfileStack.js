@@ -15,43 +15,9 @@ const LoadingComponent = () => {
                 <Table.Th>Action</Table.Th>
                 <Table.Tr>
                     <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                </Table.Tr>
-                <Table.Tr>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                </Table.Tr>  <Table.Tr>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
-                    </Table.Td>
-                    <Table.Td>
-                        <Loader color="blue" size="md" type="dots" />
+                        <Text fz="lg" fw={500}>
+                            You have no Copyrights bought yet!
+                        </Text>
                     </Table.Td>
                 </Table.Tr>
             </Table>
@@ -143,54 +109,6 @@ export function ProfileStack(props) {
             )
             ))
     }
-
-    const rows = objArr?.map((item, index) => (
-        <Table.Tr key={item.id} >
-            <Table.Td>
-                <Group gap="lg">
-                    <Avatar size={40} src={item.image_url} radius={40} />
-                    <div>
-                        <Text fz="lg" fw={500}>
-                            {item.artist_name}
-                        </Text>
-                        <Text c="dimmed" fz="xs">
-                            {item.current_owner}
-                        </Text>
-                    </div>
-                </Group>
-            </Table.Td>
-            <Table.Td>
-                <Text fz="lg">{item.title}</Text>
-
-            </Table.Td>
-            <Table.Td>
-                {item.isForSale ? <Text>
-                    (Number(item.price) / 1e18).toFixed(3)
-                </Text> :
-                    <>
-                        <TextInput
-                            label="List Price in ETH"
-                            placeholder="1.234 ETH"
-
-                        />
-
-                    </>
-
-                }
-
-                {/* <Text fz="xs" c="dimmed">
-                    ETH
-                </Text> */}
-            </Table.Td>
-
-            <Table.Td>
-                <Group gap={0} justify="flex-start">
-                    <ListAction listing={item}></ListAction>
-
-                </Group>
-            </Table.Td>
-        </Table.Tr >
-    ));
 
 
 

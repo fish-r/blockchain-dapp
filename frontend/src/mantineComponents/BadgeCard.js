@@ -5,7 +5,7 @@ import useEthers from '../hooks/useEthers';
 
 export function BadgeCard(props) {
     const listing = props.listing;
-    const { purchaseListing, connectWallet, data } = useEthers();
+    const { purchaseListing, connectWallet } = useEthers();
 
     return (
         <Card withBorder radius="md" p="md" className={classes.card}>
@@ -18,16 +18,16 @@ export function BadgeCard(props) {
                     <Text fz="lg" fw={500}>
                         {listing.title}
                     </Text>
-                    <Badge size="sm" variant="light">
-                        {listing.artist_name}
-                    </Badge>
-                </Group>
 
+                </Group>
+                <Badge size="sm" variant="light">
+                    {listing.artist_name}
+                </Badge>
             </Card.Section>
 
             <Card.Section className={classes.section} pl="md">
                 <Text mt="md" className={classes.label} c="dimmed">
-                    {Number(listing.price) / 1e18} ETH
+                    {(Number(listing.price) / 1e18).toFixed(3)} ETH
                 </Text>
 
             </Card.Section>
