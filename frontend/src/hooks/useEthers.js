@@ -9,12 +9,13 @@ const useEthers = () => {
     // const contractAddress = '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512'
     const [selectedAddress, setSelectedAddress] = useState()
     const [listings, setListings] = useState([]);
+    const [balance, setBalance] = useState();
 
     const connectWallet = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const addresses = await provider.send("eth_requestAccounts", []);
         setSelectedAddress(addresses[0])
-        console.log(addresses)
+        console.log('connected addresses', addresses)
         // const [addr] = await window.ethereum.request({ method: 'eth_requestAccounts' });
         // setSelectedAddress(addr)
         // checkNetwork();
@@ -32,19 +33,13 @@ const useEthers = () => {
         // return addr
     }
 
-    const tryConnectWallet = () => {
-        // Check if MetaMask is installed
-        if (typeof window.ethereum !== 'undefined') {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            // Request access to the user's MetaMask account
-            window.ethereum.request({ method: 'eth_requestAccounts' });
-            // Set ethers provider to MetaMask
-            // ethers.provider = provider;
-            console.log(provider)
-        } else {
-            // MetaMask is not installed or not available
-            console.log('Please install MetaMask to interact with the Ethereum network.');
-        }
+    const getBalance = async () => {
+        if (!selectedAddress) await connectWallet();
+        const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
+        const bal = await provider.getBalance(selectedAddress);
+        const converted = Number(bal) / 1e18
+        setBalance(converted)
+        console.log('converted balance', converted)
     }
 
     // This method checks if the selected network is Localhost:8545
@@ -106,19 +101,23 @@ const useEthers = () => {
         }
     }
 
-    const purchaseListing = async (listingId) => {
+    const purchaseListing = async (listingObj) => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         console.log('signer', provider.getSigner())
         const writeContract = new ethers.Contract(
             '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
             CopyrightArtifact.abi,
             provider.getSigner()
+
         )
         try {
-            console.log('est gas', provider.estimateGas())
-            const result = await writeContract.buyMusicCopyright(listingId)
-            await result.wait();
-            console.log('purchase result', result)
+            console.log('obj', listingObj)
+            const result = await writeContract.buyMusicCopyright(listingObj.id, {
+                value: ethers.utils.parseUnits(
+                    listingObj.price.toString(), 0
+                ), gasLimit: 500000
+            })
+            return result
         } catch (error) {
             console.log('purchase error', error);
         }
@@ -130,10 +129,10 @@ const useEthers = () => {
         initialize,
         checkNetwork,
         connectWallet,
-        tryConnectWallet,
         getListings,
         purchaseListing,
-        data: { listings, selectedAddress }
+        getBalance,
+        data: { listings, selectedAddress, balance }
     }
 }
 

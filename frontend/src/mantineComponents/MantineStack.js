@@ -2,6 +2,7 @@ import { Avatar, Table, Group, Text, Button, Divider } from '@mantine/core';
 
 import { Loader } from '@mantine/core';
 import useEthers from '../hooks/useEthers';
+import { useState } from 'react';
 
 
 const LoadingComponent = () => {
@@ -59,9 +60,9 @@ const LoadingComponent = () => {
     )
 }
 
-
 export function MantineStack(props) {
-    const { purchaseListing } = useEthers();
+    const { purchaseListing, getListings } = useEthers();
+    const [isPurchasing, setLoading] = useState(true);
 
     // listing is array of arrays
     // convert each array into obj
@@ -100,7 +101,12 @@ export function MantineStack(props) {
 
                 <Table.Td>
                     <Group gap={0} justify="flex-start">
-                        <Button onClick={() => { purchaseListing(item.id) }}> Add to Cart</Button>
+                        <Button onClick={() => {
+                            purchaseListing(item)
+                            setTimeout(() => {
+
+                            }, 2000);
+                        }}> Add to Cart</Button>
                     </Group>
                 </Table.Td>
             </Table.Tr > : <></>
@@ -111,7 +117,7 @@ export function MantineStack(props) {
     return (
         <>
             <Table.ScrollContainer minWidth={800} p={20}>
-                {!props.listings ?
+                {!props.listings || false ?
                     <LoadingComponent /> :
                     <Table verticalSpacing="lg">
 
