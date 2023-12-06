@@ -54,7 +54,7 @@ const useEthers = () => {
     }
 
     const getListings = async () => {
-        await connectWallet()
+        const addr = await connectWallet()
         const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
         const contract = new ethers.Contract(
             '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
@@ -71,7 +71,7 @@ const useEthers = () => {
                 const parsed = Object.assign({}, each)
                 if (parsed.isForSale) mktListings.push(parsed)
                 // funny issue where one letter is different casing
-                if (parsed.current_owner.toUpperCase() === selectedAddress.toUpperCase()) {
+                if (parsed.current_owner.toUpperCase() === addr.toUpperCase()) {
                     userListings.push(parsed)
                 } all.push(parsed)
             }
@@ -105,6 +105,27 @@ const useEthers = () => {
         }
     }
 
+    const listOnMarket = async (listingObj, listPrice) => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const writeContract = new ethers.Contract(
+            '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+            CopyrightArtifact.abi,
+            provider.getSigner()
+        )
+        try {
+            const result = await writeContract.reListMusicCopyright(listingObj.id, listPrice, {
+                value: ethers.utils.parseUnits(
+                    listingObj.price.toString(), 0
+                ), gasLimit: 500000
+            })
+            console.log(result)
+            return result
+        } catch (error) {
+            console.log('purchase error', error);
+        }
+    }
+
+
 
     return {
         checkNetwork,
@@ -112,6 +133,7 @@ const useEthers = () => {
         getListings,
         purchaseListing,
         getBalance,
+        listOnMarket,
         data: { listings, selectedAddress, balance, myListings, allListings }
     }
 }

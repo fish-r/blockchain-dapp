@@ -2,6 +2,7 @@ import { Avatar, Table, Group, Text, Button } from '@mantine/core';
 
 import { Loader } from '@mantine/core';
 import useEthers from '../hooks/useEthers';
+import { useState } from 'react';
 
 
 const LoadingComponent = () => {
@@ -59,8 +60,37 @@ const LoadingComponent = () => {
 }
 
 export function ProfileStack(props) {
-    const { purchaseListing, getListings, connectWallet, data } = useEthers();
+    const { listOnMarket, getListings, connectWallet, data } = useEthers();
+    const [loading, setLoading] = useState(false);
     const objArr = props.listings;
+
+    const ListAction = (props) => {
+        const listing = props.listing
+        if (loading) return <>
+            <Loader color="blue" size="md" type="dots" />
+        </>
+        else if (listing.isForSale) return <>
+            <Button onClick={async () => {
+                await connectWallet();
+                setLoading(true);
+                // unlist
+                // await purchaseListing(item)
+                await getListings();
+                setLoading(false)
+            }}> Unlist from Marketplace</Button>
+        </>
+        else return <>
+            <Button onClick={async () => {
+                await connectWallet();
+                setLoading(true);
+                await listOnMarket(listing, 200)
+                await getListings();
+                setLoading(false)
+            }}> List For Sale</Button>
+        </>
+    }
+
+
     const rows = objArr?.map((item) => (
         <Table.Tr key={item.id} >
             <Table.Td>
@@ -89,32 +119,14 @@ export function ProfileStack(props) {
 
             <Table.Td>
                 <Group gap={0} justify="flex-start">
-
-                    {
-                        item.isForSale ? (
-                            <Button onClick={async () => {
-                                await connectWallet();
-                                props.setLoading(true);
-                                // unlist
-                                // await purchaseListing(item)
-                                await getListings();
-                                props.setLoading(false)
-                            }}> Unlist from Marketplace</Button>
-                        ) : (
-                            <Button onClick={async () => {
-                                await connectWallet();
-                                props.setLoading(true);
-                                await purchaseListing(item)
-                                await getListings();
-                                props.setLoading(false)
-                            }}> List For Sale</Button>
-                        )
-                    }
+                    <ListAction listing={item}></ListAction>
 
                 </Group>
             </Table.Td>
         </Table.Tr >
     ));
+
+
 
 
     return (

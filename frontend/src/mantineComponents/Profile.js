@@ -19,7 +19,6 @@ export function Profile() {
         // getMyCopyrights()
         connectWallet();
         getListings()
-        console.log(data.listings)
         if (!data.selectedAddress) {
             console.log('no sel')
         }
