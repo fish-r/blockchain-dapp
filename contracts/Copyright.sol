@@ -48,6 +48,11 @@ contract MusicCopyrightMarketplace {
         _;
     }
 
+    modifier onlyNonOwnerCanBuy (uint256 id) {
+        require(musicCopyrights[id].current_owner != msg.sender, "Owner cannot buy");
+        _;
+    }
+
     modifier sufficientFunds(uint256 id, uint256 _amount) {
         require(_amount >= musicCopyrights[id].price, "Insufficient fund sent");
         _;
@@ -130,7 +135,7 @@ contract MusicCopyrightMarketplace {
     } 
 
     // Function to buy a music copyright
-    function buyMusicCopyright(uint256 id) external payable mustBeForSale(id) sufficientFunds(id, msg.value) noReentrancy{
+    function buyMusicCopyright(uint256 id) external payable mustBeForSale(id) sufficientFunds(id, msg.value) noReentrancy onlyNonOwnerCanBuy(id){
 
         address payable artist = payable(musicCopyrights[id].artist);
         uint256 price = musicCopyrights[id].price;
@@ -171,6 +176,23 @@ contract MusicCopyrightMarketplace {
             });
         }
         return music;
+    }
+
+    function getSellingMusicCopyrightNotMine(uint256 id) external view musicCopyRightExist(id) returns (MusicCopyright memory){
+        MusicCopyright memory music = musicCopyrights[id];
+        if (music.isForSale && music.current_owner != msg.sender) {
+            return music;
+        }
+        return MusicCopyright({
+            id: 0,
+            image_url: "",
+            artist: address(0),
+            artist_name: "",
+            current_owner: address(0),
+            title: "",
+            price: 0,
+            isForSale: false
+        });
     }
 
     // Function to get a list of music copyrights
