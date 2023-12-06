@@ -78,10 +78,8 @@ describe("MusicCopyrightMarketplace", function () {
     const result = await marketplace.getMusicCopyright(id);
     const finalBalanceArtist = await artist.getBalance();
     const balanceAddedToArtist = finalBalanceArtist.sub(initialBalanceArtist);
-    console.log("balanceAddedToArtist", balanceAddedToArtist)
     const finalBalanceBuyer = await buyer.getBalance();
     const balanceRemovedFromBuyer = initialBalanceBuyer.sub(finalBalanceBuyer);
-    console.log("balanceRemovedFromBuyer", balanceRemovedFromBuyer)
 
     expect(result[7]).to.equal(false); // isForSale
     expect(result[4]).to.equal(buyer.address); // current_owner
@@ -90,5 +88,53 @@ describe("MusicCopyrightMarketplace", function () {
     expect(balanceAddedToArtist).to.equal(priceResult);
     // buyer's balance should be lesser than the price because of gas fees
     expect(balanceRemovedFromBuyer).not.equal(priceResult);
+  });
+
+  it("should return correct details for registered music copyright", async function () {
+    const id = 1;
+    const image_url = "example.com/image.jpg";
+    const artist_name = "Artist";
+    const title = "Song Title";
+
+    // Register a new music copyright
+    await marketplace.connect(artist).registerMusicCopyright(id, image_url, artist_name, title);
+
+    // Get the music copyright details
+    const result = await marketplace.connect(artist).getMusicCopyright(id);
+
+    // Verify the returned details
+    expect(result.id).to.equal(id);
+    expect(result.image_url).to.equal(image_url);
+    expect(result.artist).to.equal(artist.address);
+    expect(result.artist_name).to.equal(artist_name);
+    expect(result.current_owner).to.equal(artist.address);
+    expect(result.title).to.equal(title);
+    expect(result.price).to.equal(0);
+    expect(result.isForSale).to.equal(false);
+  });
+
+  it("should return correct details for listed music copyright", async function () {
+    const id = 1;
+    const image_url = "example.com/image.jpg";
+    const artist_name = "Artist";
+    const title = "Song Title";
+    const priceInEther = 1;
+    const priceResult = BigInt(priceInEther) * BigInt(1e18);
+
+    // List a new music copyright
+    await marketplace.connect(artist).listMusicCopyright(id, image_url, artist_name, title, priceInEther);
+
+    // Get the music copyright details
+    const result = await marketplace.connect(artist).getMusicCopyright(id);
+
+    // Verify the returned details
+    expect(result.id).to.equal(id);
+    expect(result.image_url).to.equal(image_url);
+    expect(result.artist).to.equal(artist.address);
+    expect(result.artist_name).to.equal(artist_name);
+    expect(result.current_owner).to.equal(artist.address);
+    expect(result.title).to.equal(title);
+    expect(result.price).to.equal(priceResult);
+    expect(result.isForSale).to.equal(true);
   });
 });
