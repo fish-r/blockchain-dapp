@@ -69,9 +69,10 @@ const useEthers = () => {
             for (const id in response) {
                 const each = await contract.getMusicCopyright(id)
                 const parsed = Object.assign({}, each)
-                if (parsed.isForSale) mktListings.push(parsed)
+                const isOwner = parsed.current_owner.toUpperCase() === addr.toUpperCase();
+                if (parsed.isForSale && !isOwner) mktListings.push(parsed)
                 // funny issue where one letter is different casing
-                if (parsed.current_owner.toUpperCase() === addr.toUpperCase()) {
+                if (isOwner) {
                     userListings.push(parsed)
                 } all.push(parsed)
             }

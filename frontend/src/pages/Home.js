@@ -1,4 +1,4 @@
-import { Grid, LoadingOverlay, Button, Text } from "@mantine/core"
+import { Grid, LoadingOverlay, Button, Text, Box, Center } from "@mantine/core"
 import { BadgeCard } from "../mantineComponents/BadgeCard"
 import { HeaderMegaMenu } from "../mantineComponents/HeaderMegaMenu"
 import MantineCarousel from "../mantineComponents/MantineCarousel"
@@ -28,9 +28,15 @@ const Home = () => {
 
             <HeaderMegaMenu />
             <MantineCarousel />
-            <Text fz="xl" fw={500}>Top Copyrights</Text>
+            <Center >
+                <Text fz="xl" fw={500}>Top Copyrights</Text>
+            </Center>
             <MantineStack listings={tableListings} setLoading={setLoading} />
-
+            {cardListings.length > 0 ?
+                <Center >
+                    <Text fz="xl" fw={500}>Recommended</Text>
+                </Center> :
+                <></>}
             <Grid p={20}>
                 {cardListings.map((each) => {
                     return (
