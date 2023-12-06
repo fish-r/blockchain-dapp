@@ -107,7 +107,7 @@ export function MantineStack(props) {
     return (
         <>
             <Table.ScrollContainer minWidth={800} p={20}>
-                {!props.listings.length === 0 ?
+                {props.listings.length === 0 ?
                     <LoadingComponent /> :
                     <Table verticalSpacing="lg">
 

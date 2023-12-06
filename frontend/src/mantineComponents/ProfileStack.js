@@ -131,7 +131,7 @@ export function ProfileStack(props) {
         <>
             <Table.ScrollContainer minWidth={800} p={20}>
                 <Text fz="xl" fw={500}>My Copyrights</Text>
-                {!props.listings.length === 0 ?
+                {props.listings.length === 0 ?
                     <LoadingComponent /> :
                     <Table verticalSpacing="lg">
 
