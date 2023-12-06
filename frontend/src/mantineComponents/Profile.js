@@ -16,10 +16,6 @@ export function Profile() {
         // getMyCopyrights()
         connectWallet();
         getListings()
-        if (!data.selectedAddress) {
-            console.log('no sel')
-        }
-
     }, [isLoading])
 
     return (

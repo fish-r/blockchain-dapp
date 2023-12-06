@@ -13,7 +13,7 @@ const images = ['https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1
 function MantineCarousel() {
     const slides = images.map((url) => (
         <Carousel.Slide >
-            <Image src={url} sizes='xs' />
+            <Image src={url} key={url} sizes='xs' />
         </Carousel.Slide>
     ));
 
@@ -34,13 +34,3 @@ function MantineCarousel() {
 
 export default MantineCarousel;
 
-
-// function MantineCarousel() {
-//     const slides = images.map((url) => (
-//         <Carousel.Slide key={url} h={200}>
-//             <Image src={url} sizes='xs' />
-//         </Carousel.Slide>
-//     ));
-
-//     return <Carousel withIndicators>{slides}</Carousel>;
-// }
