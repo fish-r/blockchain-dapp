@@ -5,7 +5,7 @@ import useEthers from '../hooks/useEthers';
 
 export function BadgeCard(props) {
     const listing = props.listing;
-    const { purchaseListing } = useEthers();
+    const { purchaseListing, connectWallet, data } = useEthers();
 
     return (
         <Card withBorder radius="md" p="md" className={classes.card}>
@@ -35,6 +35,7 @@ export function BadgeCard(props) {
             <Group mt="xs">
                 <Button radius="md" style={{ flex: 1 }}
                     onClick={async () => {
+                        await connectWallet();
                         props.setLoading(true);
                         await purchaseListing(listing)
                         props.setLoading(false)

@@ -8,18 +8,19 @@ const useEthers = () => {
     const HARDHAT_NETWORK_ID = '31337';
     // const contractAddress = '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512'
     const [selectedAddress, setSelectedAddress] = useState()
+    // listings refers to available for sale on mktplace = isForSale == True
     const [listings, setListings] = useState([]);
     const [balance, setBalance] = useState();
+    // my listings = all listings belonging to current address, for sale or not
+    const [myListings, setMyListings] = useState([]);
+    const [allListings, setAllListings] = useState([])
 
     const connectWallet = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const addresses = await provider.send("eth_requestAccounts", []);
-        setSelectedAddress(addresses[0])
-        console.log('connected addresses', addresses)
-        // const [addr] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        // setSelectedAddress(addr)
+        console.log('addrsses', addresses)
+        setSelectedAddress(addresses.indexOf(0))
         // checkNetwork();
-        // initialize(selectedAddress);
 
         // We reinitialize it whenever the user changes their account.
         window.ethereum.on("accountsChanged", ([newAddress]) => {
@@ -63,12 +64,22 @@ const useEthers = () => {
         )
         try {
             const response = await contract.getMappingKeys()
-            const listings = []
+            const mktListings = []
+            const userListings = []
+            const all = []
             for (const id in response) {
                 const each = await contract.getMusicCopyright(id)
-                listings.push(each)
+                const parsed = Object.assign({}, each)
+
+                console.log('sel', selectedAddress)
+                if (parsed.isForSale) mktListings.push(parsed)
+                if (parsed.current_owner === selectedAddress)
+                    userListings.push(parsed)
+                all.push(parsed)
             }
-            setListings(listings);
+            setListings(mktListings);
+            setMyListings(userListings)
+            setAllListings(all)
             return listings;
         } catch (error) {
             console.log(error)
@@ -76,10 +87,6 @@ const useEthers = () => {
     }
 
     const purchaseListing = async (listingObj) => {
-        if (!selectedAddress) {
-            await connectWallet();
-            return;
-        }
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const writeContract = new ethers.Contract(
             '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
@@ -100,14 +107,13 @@ const useEthers = () => {
     }
 
 
-
     return {
         checkNetwork,
         connectWallet,
         getListings,
         purchaseListing,
         getBalance,
-        data: { listings, selectedAddress, balance }
+        data: { listings, selectedAddress, balance, myListings, allListings }
     }
 }
 

@@ -5,7 +5,6 @@ import useEthers from '../hooks/useEthers';
 
 
 const LoadingComponent = () => {
-
     return (
         <>
             <Table verticalSpacing="md">
@@ -59,11 +58,9 @@ const LoadingComponent = () => {
     )
 }
 
-export function MantineStack(props) {
+export function ProfileStack(props) {
     const { purchaseListing, getListings, connectWallet, data } = useEthers();
-
     const objArr = props.listings;
-    console.log(objArr)
     const rows = objArr?.map((item) => (
         <Table.Tr key={item.id} >
             <Table.Td>
@@ -125,4 +122,4 @@ export function MantineStack(props) {
 
     );
 }
-export default MantineStack;
+export default ProfileStack;

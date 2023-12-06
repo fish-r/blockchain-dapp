@@ -10,15 +10,17 @@ const Home = () => {
 
     const { getListings, data } = useEthers();
     const [isLoading, setLoading] = useState(false);
-
+    console.log(data.allListings)
     useEffect(() => {
         getListings();
         document.body.style.overflow = !isLoading ? 'auto' : 'hidden'; // Toggle overflow property
     }, [isLoading])
 
-    const objArr = data.listings?.slice(6, 10).map((each) => {
-        return Object.assign({}, each)
-    })
+    // listing is array of arrays
+    // convert each array into obj
+    const tableListings = data.listings?.slice(0, 5)
+
+    const cardListings = data.listings?.slice(6, 10)
 
     return (
         <>
@@ -27,11 +29,10 @@ const Home = () => {
 
             <HeaderMegaMenu />
             <MantineCarousel />
-            <MantineStack listings={data.listings} setLoading={setLoading} />
-
+            <MantineStack listings={tableListings} setLoading={setLoading} />
 
             <Grid p={20}>
-                {objArr.map((each) => {
+                {cardListings.map((each) => {
                     return (
                         <>
                             <Grid.Col span={3}>
