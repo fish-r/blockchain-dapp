@@ -1,4 +1,4 @@
-import { Button, Grid, LoadingOverlay } from "@mantine/core"
+import { Button, Grid, LoadingOverlay, Box } from "@mantine/core"
 import { BadgeCard } from "../mantineComponents/BadgeCard"
 import { HeaderMegaMenu } from "../mantineComponents/HeaderMegaMenu"
 import MantineCarousel from "../mantineComponents/MantineCarousel"
@@ -8,22 +8,24 @@ import useEthers from "../hooks/useEthers"
 
 const Home = () => {
 
-    const { initialize, connectWallet, getListings, data, getBalance } = useEthers();
-    const [isLoading, setLoading] = useState(true);
+    const { getListings, data } = useEthers();
+    const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
         getListings();
-        if (data.listings.length > 0) setLoading(false)
-    }, [data.listings.length])
+        document.body.style.overflow = !isLoading ? 'auto' : 'hidden'; // Toggle overflow property
+    }, [isLoading])
+
 
     return (
         <>
-            <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: "md", blur: 2, h: "100vh" }} />
-            <Button onClick={async () => { console.log(await getBalance()) }}>Debug</Button>
             <Button onClick={async () => { console.log(data) }}>Props</Button>
+
+            <LoadingOverlay h={2000} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+
             <HeaderMegaMenu />
             <MantineCarousel />
-            <MantineStack listings={data.listings} />
+            <MantineStack listings={data.listings} setLoading={setLoading} />
 
 
             <Grid p={20}>

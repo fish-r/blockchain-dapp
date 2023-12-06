@@ -1,8 +1,7 @@
-import { Avatar, Table, Group, Text, Button, Divider } from '@mantine/core';
+import { Avatar, Table, Group, Text, Button } from '@mantine/core';
 
 import { Loader } from '@mantine/core';
 import useEthers from '../hooks/useEthers';
-import { useState } from 'react';
 
 
 const LoadingComponent = () => {
@@ -61,12 +60,11 @@ const LoadingComponent = () => {
 }
 
 export function MantineStack(props) {
-    const { purchaseListing, getListings } = useEthers();
-    const [isPurchasing, setLoading] = useState(true);
+    const { purchaseListing, getListings, connectWallet, data } = useEthers();
 
     // listing is array of arrays
     // convert each array into obj
-    const objArr = props.listings?.map((each) => {
+    const objArr = props.listings?.slice(0, 5).map((each) => {
         return Object.assign({}, each)
     })
     const rows = objArr?.map((item) => (
@@ -101,12 +99,16 @@ export function MantineStack(props) {
 
                 <Table.Td>
                     <Group gap={0} justify="flex-start">
-                        <Button onClick={() => {
-                            purchaseListing(item)
-                            setTimeout(() => {
-
-                            }, 2000);
-                        }}> Add to Cart</Button>
+                        <Button onClick={async () => {
+                            if (!data.selectedAddress) {
+                                await connectWallet();
+                                return;
+                            }
+                            props.setLoading(true);
+                            await purchaseListing(item)
+                            await getListings();
+                            props.setLoading(false)
+                        }}> Purchase</Button>
                     </Group>
                 </Table.Td>
             </Table.Tr > : <></>
@@ -117,7 +119,7 @@ export function MantineStack(props) {
     return (
         <>
             <Table.ScrollContainer minWidth={800} p={20}>
-                {!props.listings || false ?
+                {!props.listings.length === 0 ?
                     <LoadingComponent /> :
                     <Table verticalSpacing="lg">
 

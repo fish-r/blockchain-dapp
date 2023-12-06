@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { ethers } from "ethers";
 import CopyrightArtifact from "../contracts/CopyrightArtifact.json";
 
@@ -55,31 +55,6 @@ const useEthers = () => {
 
     }
 
-    const initialize = async () => {
-        const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
-        console.log(selectedAddress)
-
-        // calling contract
-        const contract = new ethers.Contract(
-            '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
-            CopyrightArtifact.abi,
-            provider
-        )
-
-        try {
-            const response = await contract.getMappingKeys()
-            const listings = []
-            for (const id in response) {
-                const each = await contract.getMusicCopyright(id)
-                listings.push(each)
-            }
-            setListings(listings);
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-
     const getListings = async () => {
         const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
         const contract = new ethers.Contract(
@@ -103,20 +78,18 @@ const useEthers = () => {
 
     const purchaseListing = async (listingObj) => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        console.log('signer', provider.getSigner())
         const writeContract = new ethers.Contract(
             '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
             CopyrightArtifact.abi,
             provider.getSigner()
-
         )
         try {
-            console.log('obj', listingObj)
             const result = await writeContract.buyMusicCopyright(listingObj.id, {
                 value: ethers.utils.parseUnits(
                     listingObj.price.toString(), 0
                 ), gasLimit: 500000
             })
+            console.log(result)
             return result
         } catch (error) {
             console.log('purchase error', error);
@@ -126,7 +99,6 @@ const useEthers = () => {
 
 
     return {
-        initialize,
         checkNetwork,
         connectWallet,
         getListings,
