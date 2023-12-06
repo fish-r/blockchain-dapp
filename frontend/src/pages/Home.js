@@ -24,7 +24,6 @@ const Home = () => {
 
     return (
         <>
-            <Button onClick={async () => { console.log(await connectWallet()) }}></Button>
             <LoadingOverlay h={2000} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <HeaderMegaMenu />
