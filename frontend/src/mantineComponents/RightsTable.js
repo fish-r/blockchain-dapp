@@ -6,9 +6,11 @@ import { StatusButton } from './StatusButton';
 
 const rightsData = [
     {
-        musicName: 'Athena Weissnat',
+        albumName: 'Athena Weissnat',
         artistName: 'Little - Rippin',
+        image: '',
         copyrightId: 'Elouise.Prohaska@yahoo.com',
+        price: '',
         status: '',
     },
 ];
@@ -18,9 +20,11 @@ export function RightsTable() {
 
     const rows = rightsData.map((row, index) => (
         <tr key={index}> {/* Changed key to index for uniqueness */}
-            <td>{row.musicName}</td>
+            <td>{row.albumName}</td>
             <td>{row.artistName}</td>
+            <td>{row.image}</td>
             <td>{row.copyrightId}</td>
+            <td>{row.price}</td>
             <td><StatusButton /></td>
         </tr>
     ));
@@ -30,9 +34,11 @@ export function RightsTable() {
             <Table miw={700}>
                 <Table.Thead className={cx(tableClasses.header, { [tableClasses.scrolled]: scrolled })}>
                     <Table.Tr>
-                        <Table.Th>Music Name</Table.Th>
+                        <Table.Th>Album Name</Table.Th>
                         <Table.Th>Artist Name</Table.Th>
+                        <Table.Th>Album Image</Table.Th>
                         <Table.Th>Copyrights ID</Table.Th>
+                        <Table.Th>Listing Price</Table.Th>
                         <Table.Th>Status</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
