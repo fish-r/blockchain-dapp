@@ -60,32 +60,30 @@ const LoadingComponent = () => {
 }
 
 export function ProfileStack(props) {
-    const { listOnMarket, getListings, connectWallet, data } = useEthers();
-    const [loading, setLoading] = useState(false);
+    const { listOnMarket, getListings, connectWallet, unlistFromMarket } = useEthers();
     const objArr = props.listings;
 
-    const ListAction = (props) => {
-        const listing = props.listing
-        if (loading) return <>
+    const ListAction = (input) => {
+        const listing = input.listing
+        if (props.isLoading) return <>
             <Loader color="blue" size="md" type="dots" />
         </>
         else if (listing.isForSale) return <>
             <Button onClick={async () => {
                 await connectWallet();
-                setLoading(true);
-                // unlist
-                // await purchaseListing(item)
+                props.setLoading(true);
+                await unlistFromMarket(listing)
                 await getListings();
-                setLoading(false)
+                props.setLoading(false)
             }}> Unlist from Marketplace</Button>
         </>
         else return <>
             <Button onClick={async () => {
                 await connectWallet();
-                setLoading(true);
+                props.setLoading(true);
                 await listOnMarket(listing, 200)
                 await getListings();
-                setLoading(false)
+                props.setLoading(false)
             }}> List For Sale</Button>
         </>
     }
@@ -111,7 +109,7 @@ export function ProfileStack(props) {
 
             </Table.Td>
             <Table.Td>
-                <Text fz="lg">{(Number(item.price) / 1e18).toFixed(3)}</Text>
+                <Text fz="lg">{item.isForSale ? (Number(item.price) / 1e18).toFixed(3) : '--'}</Text>
                 <Text fz="xs" c="dimmed">
                     ETH
                 </Text>

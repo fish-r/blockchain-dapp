@@ -78,7 +78,7 @@ const useEthers = () => {
             setListings(mktListings);
             setMyListings(userListings)
             setAllListings(all)
-            console.log('userListings', userListings)
+            console.log('userListings', myListings)
             return listings;
         } catch (error) {
             console.log(error)
@@ -113,10 +113,32 @@ const useEthers = () => {
             provider.getSigner()
         )
         try {
-            const result = await writeContract.reListMusicCopyright(listingObj.id, listPrice, {
-                value: ethers.utils.parseUnits(
-                    listingObj.price.toString(), 0
-                ), gasLimit: 500000
+            const result = await writeContract.reListMusicCopyright(
+                listingObj.id,
+                listPrice,
+                {
+                    value: ethers.utils.parseUnits(
+                        listingObj.price.toString(), 0
+                    ), gasLimit: 500000
+                })
+            console.log(result)
+            return result
+        } catch (error) {
+            console.log('purchase error', error);
+        }
+    }
+
+    const unlistFromMarket = async (listingObj) => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const writeContract = new ethers.Contract(
+            '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+            CopyrightArtifact.abi,
+            provider.getSigner()
+        )
+        try {
+            const result = await writeContract.delistMusicCopyright(
+                listingObj.id, {
+                gasLimit: 500000
             })
             console.log(result)
             return result
@@ -134,6 +156,7 @@ const useEthers = () => {
         purchaseListing,
         getBalance,
         listOnMarket,
+        unlistFromMarket,
         data: { listings, selectedAddress, balance, myListings, allListings }
     }
 }
