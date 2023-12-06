@@ -39,7 +39,6 @@ const useEthers = () => {
         const bal = await provider.getBalance(selectedAddress);
         const converted = Number(bal) / 1e18
         setBalance(converted)
-        console.log('converted balance', converted)
     }
 
     // This method checks if the selected network is Localhost:8545
@@ -77,6 +76,10 @@ const useEthers = () => {
     }
 
     const purchaseListing = async (listingObj) => {
+        if (!selectedAddress) {
+            await connectWallet();
+            return;
+        }
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const writeContract = new ethers.Contract(
             '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',

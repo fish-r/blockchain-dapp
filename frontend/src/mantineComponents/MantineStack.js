@@ -86,9 +86,7 @@ export function MantineStack(props) {
                 </Table.Td>
                 <Table.Td>
                     <Text fz="lg">{item.title}</Text>
-                    <Text fz="xs" c="dimmed">
-                        Email
-                    </Text>
+
                 </Table.Td>
                 <Table.Td>
                     <Text fz="lg">{(Number(item.price) / 1e18).toFixed(3)}</Text>

@@ -1,67 +1,48 @@
-import { IconHeart } from '@tabler/icons-react';
-import { Card, Image, Text, Group, Badge, Button, ActionIcon } from '@mantine/core';
+import { Card, Image, Text, Group, Badge, Button } from '@mantine/core';
 import classes from './BadgeCard.module.css';
+import useEthers from '../hooks/useEthers';
 
-const mockdata = {
-    image:
-        'https://images.unsplash.com/photo-1437719417032-8595fd9e9dc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
-    title: 'Verudela Beach',
-    country: 'Croatia',
-    description:
-        'Brief description of album.',
-    badges: [
-        { emoji: '☀️', label: 'Sunny weather' },
-        { emoji: '🦓', label: 'Onsite zoo' },
-        { emoji: '🌊', label: 'Sea' },
-        { emoji: '🌲', label: 'Nature' },
-        { emoji: '🤽', label: 'Water sports' },
-    ],
-};
 
-export function BadgeCard() {
-    const { image, title, description, country, badges } = mockdata;
-    const features = badges.map((badge) => (
-        <Badge variant="light" key={badge.label} leftSection={badge.emoji}>
-            {badge.label}
-        </Badge>
-    ));
+export function BadgeCard(props) {
+    const listing = props.listing;
+    const { purchaseListing } = useEthers();
 
     return (
         <Card withBorder radius="md" p="md" className={classes.card}>
             <Card.Section>
-                <Image src={image} alt={title} height={180} />
+                <Image src={listing.image_url} alt={listing.title} height={180} />
             </Card.Section>
 
-            <Card.Section className={classes.section} mt="md">
+            <Card.Section className={classes.section} mt="md" pl="md">
                 <Group justify="apart">
                     <Text fz="lg" fw={500}>
-                        {title}
+                        {listing.title}
                     </Text>
                     <Badge size="sm" variant="light">
-                        {country}
+                        {listing.artist_name}
                     </Badge>
                 </Group>
-                <Text fz="sm" mt="xs">
-                    {description}
-                </Text>
+
             </Card.Section>
 
-            <Card.Section className={classes.section}>
+            <Card.Section className={classes.section} pl="md">
                 <Text mt="md" className={classes.label} c="dimmed">
-                    Perfect for you, if you enjoy
+                    {Number(listing.price) / 1e18} ETH
                 </Text>
-                <Group gap={7} mt={5}>
-                    {features}
-                </Group>
+
             </Card.Section>
 
             <Group mt="xs">
-                <Button radius="md" style={{ flex: 1 }}>
-                    Show details
+                <Button radius="md" style={{ flex: 1 }}
+                    onClick={async () => {
+                        props.setLoading(true);
+                        await purchaseListing(listing)
+                        props.setLoading(false)
+                    }}
+                >
+                    Purchase
                 </Button>
-                <ActionIcon variant="default" radius="md" size={36}>
-                    <IconHeart className={classes.like} stroke={1.5} />
-                </ActionIcon>
+
             </Group>
         </Card>
     );

@@ -1,4 +1,4 @@
-import { Button, Grid, LoadingOverlay, Box } from "@mantine/core"
+import { Grid, LoadingOverlay } from "@mantine/core"
 import { BadgeCard } from "../mantineComponents/BadgeCard"
 import { HeaderMegaMenu } from "../mantineComponents/HeaderMegaMenu"
 import MantineCarousel from "../mantineComponents/MantineCarousel"
@@ -16,10 +16,12 @@ const Home = () => {
         document.body.style.overflow = !isLoading ? 'auto' : 'hidden'; // Toggle overflow property
     }, [isLoading])
 
+    const objArr = data.listings?.slice(6, 10).map((each) => {
+        return Object.assign({}, each)
+    })
 
     return (
         <>
-            <Button onClick={async () => { console.log(data) }}>Props</Button>
 
             <LoadingOverlay h={2000} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
@@ -29,23 +31,17 @@ const Home = () => {
 
 
             <Grid p={20}>
-                <Grid.Col span={3}>
-                    <BadgeCard />
-                </Grid.Col>
+                {objArr.map((each) => {
+                    return (
+                        <>
+                            <Grid.Col span={3}>
+                                <BadgeCard listing={each} setLoading={setLoading} />
+                            </Grid.Col>
+                        </>)
+                }
+                )}
 
-                <Grid.Col span={3}>
-                    <BadgeCard />
-                </Grid.Col>
-
-                <Grid.Col span={3}>
-                    <BadgeCard />
-                </Grid.Col>
-
-                <Grid.Col span={3}>
-                    <BadgeCard />
-                </Grid.Col>
-
-            </Grid>
+            </Grid >
 
         </>
     )
