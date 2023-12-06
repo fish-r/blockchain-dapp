@@ -15,12 +15,17 @@ import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMegaMenu.module.css';
 
 import useEthers from "../hooks/useEthers"
-
+import { useNavigate } from 'react-router-dom';
 
 
 export function HeaderMegaMenu() {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const { connectWallet, data } = useEthers();
+    const navigate = useNavigate();
+    const navigateToProfile = () => {
+        navigate('/profile');
+    };
+
 
 
     return (
@@ -32,8 +37,7 @@ export function HeaderMegaMenu() {
                     <Group visibleFrom="sm">
                         {data.selectedAddress ?
 
-                            <Button id={data.selectedAddress} variant='default' onClick={() => { console.log(data.selectedAddress) }}>Profile</Button>
-
+                            <Button id={data.selectedAddress} variant='default' onClick={() => { navigateToProfile() }}>Profile</Button>
                             : <Button id={data.selectedAddress} variant="default" onClick={async () => {
                                 await connectWallet();
                             }}>Log in</Button>}

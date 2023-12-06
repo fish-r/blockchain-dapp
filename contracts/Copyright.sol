@@ -25,6 +25,8 @@ contract MusicCopyrightMarketplace {
     // Mapping from music copyright ID to its details
     mapping(uint256 => MusicCopyright) public musicCopyrights;
 
+    MusicCopyright[] private myMusics;
+
     // An array of keys 
     uint256[] public keys;
 
@@ -161,21 +163,13 @@ contract MusicCopyrightMarketplace {
         return music;
     }
 
-    function getMyMusicCopyright(uint256 id) external view musicCopyRightExist(id) returns (MusicCopyright memory){
-        MusicCopyright memory music = musicCopyrights[id];
-        if (music.current_owner != msg.sender) {
-            return MusicCopyright({
-                id: 0,
-                image_url: "",
-                artist: address(0),
-                artist_name: "",
-                current_owner: address(0),
-                title: "",
-                price: 0,
-                isForSale: false
-            });
+    function getMyMusicCopyrights() external returns (MusicCopyright[] memory){
+        for (uint i = 0; i < keys.length; i++) {
+            if (musicCopyrights[keys[i]].current_owner == msg.sender) {
+                myMusics.push(musicCopyrights[keys[i]]);
+            }
         }
-        return music;
+        return myMusics;
     }
 
     function getSellingMusicCopyrightNotMine(uint256 id) external view musicCopyRightExist(id) returns (MusicCopyright memory){

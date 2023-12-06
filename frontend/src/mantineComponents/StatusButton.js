@@ -30,7 +30,7 @@ export function StatusButton() {
             color={loaded ? 'teal' : theme.primaryColor}
         >
             <div className={buttonClasses.label}>
-                {progress !== 0 ? 'Updating' : loaded ? 'Displayed on Market' : 'Sell on Market'}
+                {progress !== 0 ? 'Updating' : loaded ? 'Stop Listing' : 'Sell on Market'}
             </div>
             {progress !== 0 && (
                 <Progress
