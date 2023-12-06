@@ -1,9 +1,11 @@
-import { Avatar, Table, Group, Text, Button } from '@mantine/core';
+import { Avatar, Table, Group, Text, Button, Divider } from '@mantine/core';
 
 import { Loader } from '@mantine/core';
+import useEthers from '../hooks/useEthers';
 
 
-const Loading = () => {
+const LoadingComponent = () => {
+
     return (
         <>
             <Table verticalSpacing="md">
@@ -59,25 +61,14 @@ const Loading = () => {
 
 
 export function MantineStack(props) {
+    const { purchaseListing } = useEthers();
 
     // listing is array of arrays
     // convert each array into obj
-    const objArr = props.listings.map((each) => {
+    const objArr = props.listings?.map((each) => {
         return Object.assign({}, each)
     })
-
-    const purchase = async (listingId) => {
-        console.log('contract', props.contract)
-        const contract = props.contract;
-        try {
-            const result = await contract.buyMusicCopyright(listingId)
-            console.log(result)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const rows = objArr.map((item) => (
+    const rows = objArr?.map((item) => (
 
         item.isForSale ?
             <Table.Tr key={item.id} >
@@ -109,18 +100,19 @@ export function MantineStack(props) {
 
                 <Table.Td>
                     <Group gap={0} justify="flex-start">
-                        <Button onClick={() => { purchase(item.id) }}> Add to Cart</Button>
+                        <Button onClick={() => { purchaseListing(item.id) }}> Add to Cart</Button>
                     </Group>
                 </Table.Td>
             </Table.Tr > : <></>
     ));
 
 
+
     return (
         <>
             <Table.ScrollContainer minWidth={800} p={20}>
-                {props.isLoading ?
-                    <Loading></Loading> :
+                {!props.listings ?
+                    <LoadingComponent /> :
                     <Table verticalSpacing="lg">
 
                         <Table.Th>Artist</Table.Th>

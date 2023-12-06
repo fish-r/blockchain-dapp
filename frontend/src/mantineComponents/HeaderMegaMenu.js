@@ -8,20 +8,18 @@ import {
     Drawer,
     ScrollArea,
     rem,
-    useMantineTheme,
 } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
 
 import classes from './HeaderMegaMenu.module.css';
-import { useState } from 'react';
+import useEthers from "../hooks/useEthers"
 
 
 
-export function HeaderMegaMenu(connectWallet) {
+export function HeaderMegaMenu() {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-    const [loginState, setLoginState] = useState(undefined)
-
+    const { connectWallet, data } = useEthers();
 
 
     return (
@@ -31,16 +29,14 @@ export function HeaderMegaMenu(connectWallet) {
                     <MantineLogo size={30} />
 
                     <Group visibleFrom="sm">
-                        {loginState ?
+                        {data.selectedAddress ?
 
-                            <Button id={loginState} variant='default' onClick={() => { console.log(loginState) }}>Profile</Button>
+                            <Button id={data.selectedAddress} variant='default' onClick={() => { console.log(data.selectedAddress) }}>Profile</Button>
 
-                            : <Button id={loginState} variant="default" onClick={async () => {
-                                const addr = await connectWallet.connectWallet()
-                                setLoginState(addr)
-                                console.log(addr)
+                            : <Button id={data.selectedAddress} variant="default" onClick={async () => {
+                                await connectWallet();
                             }}>Log in</Button>}
-                        <Button onClick={() => { console.log('stuff', loginState) }}>My Cart</Button>
+                        <Button onClick={() => { console.log('stuff', data) }}>My Cart</Button>
                     </Group>
 
                     <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
