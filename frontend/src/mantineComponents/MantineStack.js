@@ -1,146 +1,131 @@
-import { Avatar, Table, Group, Text, ActionIcon, Menu, rem } from '@mantine/core';
-import {
-    IconPencil,
-    IconMessages,
-    IconNote,
-    IconReportAnalytics,
-    IconTrash,
-    IconDots,
-} from '@tabler/icons-react';
+import { Avatar, Table, Group, Text, Button, Divider } from '@mantine/core';
 
-const data = [
-    {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-        name: 'Robert Wolfkisser',
-        job: 'Engineer',
-        email: 'rob_wolf@gmail.com',
-        rate: 22,
-    },
-    {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
-        name: 'Jill Jailbreaker',
-        job: 'Engineer',
-        email: 'jj@breaker.com',
-        rate: 45,
-    },
-    {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-        name: 'Henry Silkeater',
-        job: 'Designer',
-        email: 'henry@silkeater.io',
-        rate: 76,
-    },
-    {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-        name: 'Bill Horsefighter',
-        job: 'Designer',
-        email: 'bhorsefighter@gmail.com',
-        rate: 15,
-    },
-    {
-        avatar:
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-        name: 'Jeremy Footviewer',
-        job: 'Manager',
-        email: 'jeremy@foot.dev',
-        rate: 98,
-    },
-];
+import { Loader } from '@mantine/core';
+import useEthers from '../hooks/useEthers';
 
-export function MantineStack() {
-    const rows = data.map((item) => (
 
-        <Table.Tr key={item.name}>
-            <Table.Td>
-                <Group gap="sm">
-                    <Avatar size={40} src={item.avatar} radius={40} />
-                    <div>
-                        <Text fz="sm" fw={500}>
-                            {item.name}
-                        </Text>
-                        <Text c="dimmed" fz="xs">
-                            {item.job}
-                        </Text>
-                    </div>
-                </Group>
-            </Table.Td>
-            <Table.Td>
-                <Text fz="sm">{item.email}</Text>
-                <Text fz="xs" c="dimmed">
-                    Email
-                </Text>
-            </Table.Td>
-            <Table.Td>
-                <Text fz="sm">${item.rate.toFixed(1)} / hr</Text>
-                <Text fz="xs" c="dimmed">
-                    Rate
-                </Text>
-            </Table.Td>
-            <Table.Td>
-                <Group gap={0} justify="flex-end">
-                    <ActionIcon variant="subtle" color="gray">
-                        <IconPencil style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                    </ActionIcon>
-                    <Menu
-                        transitionProps={{ transition: 'pop' }}
-                        withArrow
-                        position="bottom-end"
-                        withinPortal
-                    >
-                        <Menu.Target>
-                            <ActionIcon variant="subtle" color="gray">
-                                <IconDots style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                            </ActionIcon>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Menu.Item
-                                leftSection={
-                                    <IconMessages style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                                }
-                            >
-                                Send message
-                            </Menu.Item>
-                            <Menu.Item
-                                leftSection={<IconNote style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                            >
-                                Add note
-                            </Menu.Item>
-                            <Menu.Item
-                                leftSection={
-                                    <IconReportAnalytics style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                                }
-                            >
-                                Analytics
-                            </Menu.Item>
-                            <Menu.Item
-                                leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                                color="red"
-                            >
-                                Terminate contract
-                            </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu>
-                </Group>
-            </Table.Td>
-        </Table.Tr>
-    ));
+const LoadingComponent = () => {
 
     return (
-        <Table.ScrollContainer minWidth={800} p={20}>
-
+        <>
             <Table verticalSpacing="md">
-
                 <Table.Th>Artist</Table.Th>
                 <Table.Th>Album</Table.Th>
                 <Table.Th>Floor Price</Table.Th>
-                <Table.Th>Volume</Table.Th>
-                <Table.Tbody>{rows}</Table.Tbody>
+                <Table.Th>Action</Table.Th>
+                <Table.Tr>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                </Table.Tr>
+                <Table.Tr>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                </Table.Tr>  <Table.Tr>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                    <Table.Td>
+                        <Loader color="blue" size="md" type="dots" />
+                    </Table.Td>
+                </Table.Tr>
             </Table>
-        </Table.ScrollContainer>
+        </>
+    )
+}
+
+
+export function MantineStack(props) {
+    const { purchaseListing } = useEthers();
+
+    // listing is array of arrays
+    // convert each array into obj
+    const objArr = props.listings?.map((each) => {
+        return Object.assign({}, each)
+    })
+    const rows = objArr?.map((item) => (
+
+        item.isForSale ?
+            <Table.Tr key={item.id} >
+                <Table.Td>
+                    <Group gap="lg">
+                        <Avatar size={40} src={item.image_url} radius={40} />
+                        <div>
+                            <Text fz="lg" fw={500}>
+                                {item.artist_name}
+                            </Text>
+                            <Text c="dimmed" fz="xs">
+                                {item.current_owner}
+                            </Text>
+                        </div>
+                    </Group>
+                </Table.Td>
+                <Table.Td>
+                    <Text fz="lg">{item.title}</Text>
+                    <Text fz="xs" c="dimmed">
+                        Email
+                    </Text>
+                </Table.Td>
+                <Table.Td>
+                    <Text fz="lg">{(Number(item.price) / 1e18).toFixed(3)}</Text>
+                    <Text fz="xs" c="dimmed">
+                        ETH
+                    </Text>
+                </Table.Td>
+
+                <Table.Td>
+                    <Group gap={0} justify="flex-start">
+                        <Button onClick={() => { purchaseListing(item.id) }}> Add to Cart</Button>
+                    </Group>
+                </Table.Td>
+            </Table.Tr > : <></>
+    ));
+
+
+
+    return (
+        <>
+            <Table.ScrollContainer minWidth={800} p={20}>
+                {!props.listings ?
+                    <LoadingComponent /> :
+                    <Table verticalSpacing="lg">
+
+                        <Table.Th>Artist</Table.Th>
+                        <Table.Th>Album</Table.Th>
+                        <Table.Th>Price</Table.Th>
+                        <Table.Th>Action</Table.Th>
+
+                        <Table.Tbody>{rows}</Table.Tbody>
+                    </Table>
+                }
+            </Table.ScrollContainer>
+        </>
+
     );
 }
 export default MantineStack;
