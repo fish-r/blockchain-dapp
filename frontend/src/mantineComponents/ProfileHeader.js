@@ -59,7 +59,7 @@ export function ProfileHeader() {
     return (
         <div className={profileClasses.header}>
             <Container className={profileClasses.mainSection} size="md">
-                <Group justify="space-end">
+                <Group justify="center">
 
                     <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
 
@@ -76,8 +76,8 @@ export function ProfileHeader() {
                                 className={`${profileClasses.user} ${userMenuOpened ? profileClasses.userActive : ''}`}
                             >
                                 <Group gap={7}>
-                                    <Avatar src={user.image} alt={userAddress} radius="xl" size={20} />
-                                    <Text fw={500} size="sm" lh={1} mr={3}>
+                                    <Avatar src={user.image} alt={userAddress} radius="xl" />
+                                    <Text fw={500} size="sm" lh={2} mr={3}>
                                         {userAddress}
                                     </Text>
                                     <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
