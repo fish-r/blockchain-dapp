@@ -156,7 +156,7 @@ contract MusicCopyrightMarketplace {
         return music;
     }
 
-    function myMusicCopyright(uint256 id) external view musicCopyRightExist(id) returns (MusicCopyright memory){
+    function getMyMusicCopyright(uint256 id) external view musicCopyRightExist(id) returns (MusicCopyright memory){
         MusicCopyright memory music = musicCopyrights[id];
         if (music.current_owner != msg.sender) {
             return MusicCopyright({
