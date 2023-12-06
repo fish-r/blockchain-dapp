@@ -18,9 +18,9 @@ import useEthers from "../hooks/useEthers"
 import { useNavigate } from 'react-router-dom';
 
 
-export function HeaderMegaMenu() {
+export function HeaderMegaMenu(props) {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-    const { connectWallet, data } = useEthers();
+    const { connectWallet } = useEthers();
     const navigate = useNavigate();
     const navigateToProfile = () => {
         navigate('/profile');
@@ -35,13 +35,13 @@ export function HeaderMegaMenu() {
                     <MantineLogo size={30} />
 
                     <Group visibleFrom="sm">
-                        {data.selectedAddress ?
+                        {props.selectedAddress ?
 
-                            <Button id={data.selectedAddress} variant='default' onClick={() => { navigateToProfile() }}>Profile</Button>
-                            : <Button id={data.selectedAddress} variant="default" onClick={async () => {
+                            <Button variant='default' onClick={() => { navigateToProfile() }}>Profile</Button>
+                            : <Button variant="default" onClick={async () => {
                                 await connectWallet();
                             }}>Log in</Button>}
-                        <Button onClick={() => { console.log('stuff', data) }}>My Cart</Button>
+                        <Button onClick={() => { console.log('stuff') }}>Notifications</Button>
                     </Group>
 
                     <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />

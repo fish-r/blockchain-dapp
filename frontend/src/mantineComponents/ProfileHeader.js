@@ -10,7 +10,6 @@ import {
     Tabs,
     Burger,
     rem,
-    useMantineTheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -60,7 +59,7 @@ export function ProfileHeader() {
     return (
         <div className={profileClasses.header}>
             <Container className={profileClasses.mainSection} size="md">
-                <Group justify="space-between">
+                <Group justify="space-end">
 
                     <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
 

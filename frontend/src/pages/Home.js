@@ -8,9 +8,9 @@ import useEthers from "../hooks/useEthers"
 
 const Home = () => {
 
-    const { getListings, connectWallet, data } = useEthers();
+    const { getListings, data } = useEthers();
     const [isLoading, setLoading] = useState(false);
-    console.log(data.allListings)
+    console.log(data)
     useEffect(() => {
         getListings();
         document.body.style.overflow = !isLoading ? 'auto' : 'hidden'; // Toggle overflow property
@@ -26,7 +26,7 @@ const Home = () => {
         <>
             <LoadingOverlay h={2000} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
-            <HeaderMegaMenu />
+            <HeaderMegaMenu selectedAddress={data.selectedAddress} />
             <MantineCarousel />
             <Center >
                 <Text fz="xl" fw={500}>Top Copyrights</Text>
