@@ -8,6 +8,8 @@ import {
     Drawer,
     ScrollArea,
     rem,
+    Text,
+    Avatar
 } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
@@ -36,11 +38,23 @@ export function HeaderMegaMenu(props) {
 
                     <Group visibleFrom="sm">
                         {props.selectedAddress ?
+                            <>
+                                <Group>
+                                    <Avatar src={props.selectedAddress.image} alt={props.selectedAddress} radius="xl" />
+                                    <Text fw={500} size="sm" lh={2} mr={3}>
+                                        {props.selectedAddress}
+                                    </Text>
+                                </Group>
+                                <Button variant='default' onClick={() => { navigateToProfile() }}>Profile</Button>
+                            </>
+                            :
+                            <Button
+                                variant="default"
+                                onClick={async () => {
+                                    await connectWallet();
+                                }}>Log in</Button>
+                        }
 
-                            <Button variant='default' onClick={() => { navigateToProfile() }}>Profile</Button>
-                            : <Button variant="default" onClick={async () => {
-                                await connectWallet();
-                            }}>Log in</Button>}
                         <Button onClick={() => { console.log('stuff') }}>Notifications</Button>
                     </Group>
 
@@ -61,9 +75,26 @@ export function HeaderMegaMenu(props) {
 
                     <Divider my="sm" />
 
-                    <Group justify="center" grow pb="xl" px="md">
-                        <Button variant="default">Log in</Button>
-                        <Button>Sign up</Button>
+                    <Group>
+                        {props.selectedAddress ?
+                            <>
+                                <Group>
+                                    <Avatar src={props.selectedAddress.image} alt={props.selectedAddress} radius="xl" />
+                                    <Text fw={500} size="sm" lh={2} mr={3}>
+                                        {props.selectedAddress}
+                                    </Text>
+                                </Group>
+                                <Button variant='default' onClick={() => { navigateToProfile() }}>Profile</Button>
+                            </>
+                            :
+                            <Button
+                                variant="default"
+                                onClick={async () => {
+                                    await connectWallet();
+                                }}>Log in</Button>
+                        }
+
+                        <Button onClick={() => { console.log('stuff') }}>Notifications</Button>
                     </Group>
                 </ScrollArea>
             </Drawer>

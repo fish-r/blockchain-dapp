@@ -1,4 +1,4 @@
-import { Grid, LoadingOverlay, Button, Text, Box, Center } from "@mantine/core"
+import { Grid, LoadingOverlay, Text, Center } from "@mantine/core"
 import { BadgeCard } from "../mantineComponents/BadgeCard"
 import { HeaderMegaMenu } from "../mantineComponents/HeaderMegaMenu"
 import MantineCarousel from "../mantineComponents/MantineCarousel"
@@ -12,7 +12,9 @@ const Home = () => {
     const [isLoading, setLoading] = useState(false);
     console.log(data)
     useEffect(() => {
-        getListings();
+        setTimeout(() => {
+            getListings()
+        }, 1500);
         document.body.style.overflow = !isLoading ? 'auto' : 'hidden'; // Toggle overflow property
     }, [isLoading])
 
@@ -24,7 +26,7 @@ const Home = () => {
 
     return (
         <>
-            <LoadingOverlay h={2000} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay h={"100vh"} pos={"sticky"} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <HeaderMegaMenu selectedAddress={data.selectedAddress} />
             <MantineCarousel />

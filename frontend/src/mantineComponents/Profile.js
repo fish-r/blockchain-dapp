@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ProfileHeader } from './ProfileHeader'; // Import ProfileHeader component
 
-import { useNavigate } from 'react-router-dom';
 import ProfileStack from './ProfileStack';
 import useEthers from '../hooks/useEthers';
 
