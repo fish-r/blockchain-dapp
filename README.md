@@ -16,6 +16,7 @@ dependencies:
 
 ```sh
 git clone https://github.com/fish-r/blockchain-dapp.git
+cd blockchain-dapp
 npm install
 ```
 
@@ -59,8 +60,17 @@ need to have [Coinbase Wallet](https://www.coinbase.com/wallet) or [Metamask](ht
 - Test cases can be found under /test
 - Scripts for deployment and seeding can be found under /scripts
 
-### Testing
+### Smart Contracts
+If changes are made to the smart contract, remember to recompile the contracts before running Hardhat's testing network:
+```sh
+npx hardhat compile
+```
 
+### Testing
+To run the test cases, run the following command:
+```sh
+npx hardhat test
+```
 
 ## Troubleshooting
 
