@@ -22,15 +22,6 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const Token = await ethers.getContractFactory("Token");
-  const token = await Token.deploy();
-  await token.deployed();
-
-  console.log("Token address:", token.address);
-
-  // We also save the contract's artifacts and address in the frontend directory
-  saveFrontendFiles(token);
-
   const Copyright = await ethers.getContractFactory("MusicCopyrightMarketplace");
   const copyright = await Copyright.deploy();
   await copyright.deployed();
@@ -38,7 +29,7 @@ async function main() {
 
 }
 
-function saveFrontendFiles(token) {
+function saveFrontendFiles(Copyright) {
   const fs = require("fs");
   const contractsDir = path.join(__dirname, "..", "frontend", "src", "contracts");
 
@@ -48,17 +39,10 @@ function saveFrontendFiles(token) {
 
   fs.writeFileSync(
     path.join(contractsDir, "contract-address.json"),
-    JSON.stringify({ Token: token.address }, undefined, 2)
+    JSON.stringify({ Copyright: Copyright.address }, undefined, 2)
   );
 
-  const TokenArtifact = artifacts.readArtifactSync("Token");
   const CopyrightArtifact = artifacts.readArtifactSync("MusicCopyrightMarketplace");
-
-  fs.writeFileSync(
-    path.join(contractsDir, "Token.json"),
-    JSON.stringify(TokenArtifact, null, 2)
-  );
-
   fs.writeFileSync(
     path.join(contractsDir, "CopyrightArtifact.json"),
     JSON.stringify(CopyrightArtifact, null, 2)

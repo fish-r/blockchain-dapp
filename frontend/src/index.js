@@ -1,9 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Dapp } from "./components/Dapp";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Profile } from "./mantineComponents/Profile";
-import { HeaderMegaMenu } from "./mantineComponents/HeaderMegaMenu";
 // We import bootstrap here, but you can remove if you want
 // import "bootstrap/dist/css/bootstrap.css";
 

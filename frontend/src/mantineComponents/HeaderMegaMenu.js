@@ -47,7 +47,7 @@ export function HeaderMegaMenu(props) {
                                         {props.selectedAddress}
                                     </Text>
                                 </Group>
-                                <Button variant='default' onClick={() => { navigateToProfile() }}>Profile</Button>
+                                <Button onClick={() => { navigateToProfile() }}>Profile</Button>
                             </>
                             :
                             <Button
@@ -57,7 +57,7 @@ export function HeaderMegaMenu(props) {
                                 }}>Log in</Button>
                         }
 
-                        <Button onClick={() => { console.log('stuff') }}>Notifications</Button>
+                        {/* <Button onClick={() => { console.log('stuff') }}>Notifications</Button> */}
                     </Group>
 
                     <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
