@@ -51,6 +51,23 @@ need to have [Coinbase Wallet](https://www.coinbase.com/wallet) or [Metamask](ht
 `localhost 8545`.
 
 ## User Guide
+
+### Project Structure
+
+├── LICENSE
+├── README.md
+├── artifacts
+├── cache
+├── contracts
+├── frontend 
+├── hardhat.config.js
+├── node_modules
+├── package-lock.json
+├── package.json
+├── scripts
+├── tasks
+└── test
+
 ### Testing
 
 
