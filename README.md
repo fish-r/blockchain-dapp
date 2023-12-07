@@ -54,19 +54,10 @@ need to have [Coinbase Wallet](https://www.coinbase.com/wallet) or [Metamask](ht
 
 ### Project Structure
 
-├── LICENSE
-├── README.md
-├── artifacts
-├── cache
-├── contracts
-├── frontend
-├── hardhat.config.js
-├── node_modules
-├── package-lock.json
-├── package.json
-├── scripts
-├── tasks
-└── test
+- Source code for the frontend components can be found in /frontend
+- Smart contracts can be found under /contracts
+- Test cases can be found under /test
+- Scripts for deployment and seeding can be found under /scripts
 
 ### Testing
 
