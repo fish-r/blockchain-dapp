@@ -1,13 +1,13 @@
-# Hardhat Boilerplate
+# Blockchain Dapp
 
-This repository contains a sample project that you can use as the starting point
-for your Ethereum project. It's also a great fit for learning the basics of
-smart contract development.
+This repository contains a Blockchain Dapp project made for SUTD's Blockchain Technology 50.037 mod.
 
-This project is intended to be used with the
-[Hardhat Beginners Tutorial](https://hardhat.org/tutorial), but you should be
-able to follow it by yourself by reading the README and exploring its
-`contracts`, `tests`, `scripts` and `frontend` directories.
+## Introduction
+In an era where the digital landscape is rapidly transforming how we interact with creative content, there is increasing emphasis on efficient management and exchange of music rights for the empowerment of artists and the vibrancy of the music industry. Our Decentralized Application, the Music Rights Selling Software, addresses the challenges encountered in the current music rights marketplace. This web application is designed to usher in a new paradigm of transparency, security, and efficiency for artists, rights holders, and music industry professionals.
+
+Our DApp aims to dismantle these barriers by establishing a decentralized marketplace that not only streamlines the transactional process but also redefines it. By leveraging blockchain technology and smart contracts, our platform ensures that every transaction is immutable, transparent, and directly between parties, thereby eliminating unnecessary intermediaries and reducing the potential for disputes.
+
+[Link to Demo](https://drive.google.com/file/d/1MNfLdXaE9OMNrMd9UQ5N_7B9mz2K-c4g/view?usp=drive_link)
 
 ## Quick start
 
@@ -15,8 +15,7 @@ The first things you need to do are cloning this repository and installing its
 dependencies:
 
 ```sh
-git clone https://github.com/NomicFoundation/hardhat-boilerplate.git
-cd hardhat-boilerplate
+git clone https://github.com/fish-r/blockchain-dapp.git
 npm install
 ```
 
@@ -33,6 +32,12 @@ deploy your contract:
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
+Once the contract(s) has been deployed, run the following command to seed sample data:
+
+```sh
+npx hardhat run scripts/seed.js --network localhost
+```
+
 Finally, we can run the frontend with:
 
 ```sh
@@ -46,29 +51,8 @@ need to have [Coinbase Wallet](https://www.coinbase.com/wallet) or [Metamask](ht
 `localhost 8545`.
 
 ## User Guide
+### Testing
 
-You can find detailed instructions on using this repository and many tips in [its documentation](https://hardhat.org/tutorial).
-
-- [Writing and compiling contracts](https://hardhat.org/tutorial/writing-and-compiling-contracts/)
-- [Setting up the environment](https://hardhat.org/tutorial/setting-up-the-environment/)
-- [Testing Contracts](https://hardhat.org/tutorial/testing-contracts/)
-- [Setting up your wallet](https://hardhat.org/tutorial/boilerplate-project#how-to-use-it)
-- [Hardhat's full documentation](https://hardhat.org/docs/)
-
-For a complete introduction to Hardhat, refer to [this guide](https://hardhat.org/getting-started/#overview).
-
-## What's Included?
-
-This repository uses our recommended hardhat setup, by using our [`@nomicfoundation/hardhat-toolbox`](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-toolbox). When you use this plugin, you'll be able to:
-
-- Deploy and interact with your contracts using [ethers.js](https://docs.ethers.io/v5/) and the [`hardhat-ethers`](https://hardhat.org/hardhat-runner/plugins/nomiclabs-hardhat-ethers) plugin.
-- Test your contracts with [Mocha](https://mochajs.org/), [Chai](https://chaijs.com/) and our own [Hardhat Chai Matchers](https://hardhat.org/hardhat-chai-matchers) plugin.
-- Interact with Hardhat Network with our [Hardhat Network Helpers](https://hardhat.org/hardhat-network-helpers).
-- Verify the source code of your contracts with the [hardhat-etherscan](https://hardhat.org/hardhat-runner/plugins/nomiclabs-hardhat-etherscan) plugin.
-- Get metrics on the gas used by your contracts with the [hardhat-gas-reporter](https://github.com/cgewecke/hardhat-gas-reporter) plugin.
-- Measure your tests coverage with [solidity-coverage](https://github.com/sc-forks/solidity-coverage).
-
-This project also includes [a sample frontend/Dapp](./frontend), which uses [Create React App](https://github.com/facebook/create-react-app).
 
 ## Troubleshooting
 
@@ -77,14 +61,5 @@ This project also includes [a sample frontend/Dapp](./frontend), which uses [Cre
   transaction history and also the nonce. Open Metamask, click on your account
   followed by `Settings > Advanced > Clear activity tab data`.
 
-## Setting up your editor
 
-[Hardhat for Visual Studio Code](https://hardhat.org/hardhat-vscode) is the official Hardhat extension that adds advanced support for Solidity to VSCode. If you use Visual Studio Code, give it a try!
 
-## Getting help and updates
-
-If you need help with this project, or with Hardhat in general, please read [this guide](https://hardhat.org/hardhat-runner/docs/guides/getting-help) to learn where and how to get it.
-
-For the latest news about Hardhat, [follow us on Twitter](https://twitter.com/HardhatHQ), and don't forget to star [our GitHub repository](https://github.com/NomicFoundation/hardhat)!
-
-**Happy _building_!**
