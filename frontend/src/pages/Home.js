@@ -26,7 +26,7 @@ const Home = () => {
 
     return (
         <>
-            <LoadingOverlay h={2000} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+            <LoadingOverlay h={"100vh"} pos={"sticky"} visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
 
             <HeaderMegaMenu selectedAddress={data.selectedAddress} />
             <MantineCarousel />
