@@ -59,7 +59,7 @@ need to have [Coinbase Wallet](https://www.coinbase.com/wallet) or [Metamask](ht
 ├── artifacts
 ├── cache
 ├── contracts
-├── frontend 
+├── frontend
 ├── hardhat.config.js
 ├── node_modules
 ├── package-lock.json
