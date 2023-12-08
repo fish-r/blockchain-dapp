@@ -34,8 +34,10 @@ export function HeaderMegaMenu(props) {
         <Box pb={20} pt={20}>
             <header className={classes.header}>
                 <Group justify="space-between" h="100%">
-                    <MantineLogo size={30} />
-
+                    {/* <MantineLogo size={30} /> */}
+                    <Text fw={500} size="xl" lh={2} mr={3}>
+                        YufanKellieRichanMuziCoin
+                    </Text>
                     <Group visibleFrom="sm">
                         {props.selectedAddress ?
                             <>
